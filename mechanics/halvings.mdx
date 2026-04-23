@@ -1,0 +1,149 @@
+---
+title: "hCASH halvings: emission schedule and earnings impact"
+description: "Every 4,200,000 blocks, hCASH block rewards drop 50%. Learn how halvings cut your daily earnings and what to do before and after the event fires."
+---
+
+A halving is a scheduled, automatic reduction in the hCASH block reward. Every 4,200,000 blocks, the per-block emission is cut in half. This is not a governance decision or a protocol upgrade — it is hardcoded into the emission schedule and will occur regardless of market conditions, player count, or network hashrate. Understanding halvings is essential because they directly reduce your daily earnings if you do not compensate with additional hashrate.
+
+## How halvings work
+
+The block reward starts at 1.25 hCASH per block (already one halving in from the original 2.5 hCASH base). Each subsequent halving applies a `0.5×` multiplier to the prevailing reward:
+
+```typescript
+// From mining-math.ts
+emissionFactor = Math.pow(0.5, halvingStep)
+adjustedReward = baseReward × emissionFactor
+```
+
+### Emission schedule
+
+| Halving | Block reward | Daily emission (network-wide) |
+|---|---|---|
+| Current (halving 2, May 2026) | 1.25 hCASH/block | 54,000 hCASH/day |
+| After halving 3 (Aug 2026) | 0.625 hCASH/block | 27,000 hCASH/day |
+| After halving 4 | 0.3125 hCASH/block | 13,500 hCASH/day |
+| After halving 5 | 0.15625 hCASH/block | 6,750 hCASH/day |
+
+Each step is an exact 50% cut to both per-block rewards and total daily network emission.
+
+## Halving interval in real time
+
+```
+halvingInterval = 4,200,000 blocks ÷ 43,200 blocks/day ≈ 97 days per epoch
+```
+
+At Avalanche's ~2-second block time, a full halving epoch lasts approximately **97 days**. This is significantly shorter than Bitcoin's ~4-year halving cycle, which means Club HashCash players face more frequent and more aggressive emission compression.
+
+### Next halving countdown
+
+As of the current dashboard snapshot:
+
+```
+Blocks remaining to next halving: 2,973,540
+Time remaining at 43,200 blocks/day: ~68.8 days
+```
+
+<Note>
+  The live block countdown is shown on the dashboard under the hCASH per block stat card. The [Halving Tracker](/dashboard/halving-tracker) tool provides a dedicated view with projected date and daily earnings impact.
+</Note>
+
+## Impact on daily earnings
+
+A halving does not change your hashrate share — it reduces the total pool being shared. If your share is 0.207% and the block reward drops from 1.25 to 0.625 hCASH:
+
+```
+Before halving: 1.25 × (500 / 241,850) × 43,200 ≈ 111.5 hCASH/day
+After halving:  0.625 × (500 / 241,850) × 43,200 ≈ 55.7 hCASH/day
+```
+
+Your daily output is cut in half, at identical hashrate and network conditions. To maintain pre-halving earnings, you must double your hashrate before or immediately after the halving.
+
+<Warning>
+  If you do not add hashrate before a halving, your daily hCASH income drops by exactly 50% on the day it occurs. This is not a temporary dip — it is the new baseline until you acquire more mining capacity.
+</Warning>
+
+## The `calculateRewardsWithHalvings` function
+
+The Oracle simulator uses this function from `mining-math.ts` to project earnings across a period containing one or more halvings:
+
+```typescript
+export function calculateRewardsWithHalvings(
+  dailyRate: number,
+  days: number,
+  halvingStep: number = 0
+): number {
+  let total = 0;
+  for (let d = 0; d < days; d++) {
+    total += dailyRate;
+  }
+  return total * Math.pow(0.5, halvingStep);
+}
+```
+
+The `halvingStep` parameter maps directly to the Oracle's halvings slider (0–3). A value of `1` applies a 0.5× multiplier to the entire period's output — meaning the simulation treats the halving as applying uniformly across all days in the window. This is an intentional simplification; in reality the halving occurs at a specific block, so actual earnings depend on where in the period that block falls.
+
+## Strategic implications
+
+### Pre-halving: accumulate hashrate
+
+The most effective time to add miners is **before** a halving, not after. Reasons:
+
+- You earn full pre-halving rewards on any hashrate you add now
+- After the halving, the same hCASH cost to buy a miner earns you half the daily output per miner
+- If hCASH price rises post-halving (as supply inflation drops), buying miners with pre-halving hCASH is cheaper in USD terms than buying post-halving at a higher price
+
+<Tip>
+  With ~69 days to the next halving, any miner purchased today starts earning immediately at 1.25 hCASH/block. After the halving, that same miner earns 0.625 hCASH/block. Early buyers get more cumulative output.
+</Tip>
+
+### Post-halving: price appreciation potential
+
+Halvings compress new supply entering circulation. If player demand for hCASH remains constant or grows while emission drops, price tends to rise. Players who accumulated hashrate before the halving benefit from:
+
+1. **More hCASH in their wallet** from pre-halving mining
+2. **Higher USD value per hCASH** if the market re-rates the token upward
+3. **Continued output advantage** from a larger hashrate stack
+
+### Claim timing around halvings
+
+If rates are at Elevated and a halving is imminent, consider claiming now. Post-halving, your accumulation rate drops — so a large pre-halving balance claimed at Elevated rates may still net more than waiting for Normal rates post-halving with half the daily inflow.
+
+<AccordionGroup>
+  <Accordion title="Should I claim before a halving if rates are Elevated?">
+    Generally yes, if your accumulated balance is large. The math: if your daily rate drops by 50% after the halving, and you are already at Elevated rates, the opportunity cost of waiting (earning at half rate during the wait) often exceeds the Elevated fee overhead on a large claim.
+  </Accordion>
+  <Accordion title="Should I buy miners right before a halving?">
+    Yes, if you have the hCASH. Pre-halving purchases earn at the current higher rate immediately and start compounding. Post-halving, those same miners earn at the halved rate. The earlier you buy, the more total hCASH you accumulate before the cut.
+  </Accordion>
+  <Accordion title="What happens if I do nothing before the halving?">
+    Your existing rigs continue running. Your daily earnings drop by 50% on the halving block. Your market position weakens relative to players who added hashrate pre-halving. This is a valid low-effort strategy if you lack capital, but it cedes competitive ground.
+  </Accordion>
+</AccordionGroup>
+
+## Planning tools
+
+<CardGroup cols={2}>
+  <Card title="Halving Tracker" icon="clock" href="/dashboard/halving-tracker">
+    Live block countdown to the next halving, projected date, and estimated impact on your current daily earnings.
+  </Card>
+  <Card title="Oracle simulator" icon="orbit" href="/tools/oracle">
+    Model scenarios with 0–3 halvings in a period. Adjust network growth, price movement, and player influx to see projected hCASH and USD outcomes across Bear, Base, and Bull cases.
+  </Card>
+  <Card title="FOMO Machine" icon="rewind" href="/tools/fomo-machine">
+    Run historical simulations to understand how past halvings affected earnings. Calibrate your pre-halving strategy against real game data.
+  </Card>
+  <Card title="ROI Calculator" icon="calculator" href="/dashboard/roi-calculator">
+    Calculate payback days for specific miners at current and post-halving emission rates before you commit hCASH to a purchase.
+  </Card>
+</CardGroup>
+
+---
+
+<CardGroup cols={2}>
+  <Card title="Mining fundamentals" icon="pickaxe" href="/mechanics/mining-fundamentals">
+    Review the earnings formula and how network share dilution interacts with halving math.
+  </Card>
+  <Card title="hCASH economics" icon="coins" href="/mechanics/hcash-economics">
+    Understand how halvings compound with deflationary burn mechanics to affect hCASH supply.
+  </Card>
+</CardGroup>

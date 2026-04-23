@@ -1,0 +1,126 @@
+---
+title: "Claim Advisor: get WAIT or CLAIM NOW verdicts fast"
+description: "Enter any wallet address and get a data-driven WAIT or CLAIM NOW verdict using a 2× fee threshold rule, with AI reasoning on your reward position."
+---
+
+The Claim Advisor is HashPilot's gas-efficiency intelligence layer for hCASH reward claims. Rather than asking you to eyeball your pending balance against fluctuating network fees, it runs a deterministic threshold check and delivers a single, actionable verdict — either **CLAIM NOW** or **WAIT** — backed by a plain-language explanation of the underlying math.
+
+## The 2× Threshold Rule
+
+Every claim on the HashCash protocol costs a fee denominated in hCASH. Claiming when your pending rewards barely exceed that fee wastes a disproportionate share of your earnings on gas. The Claim Advisor enforces a minimum efficiency floor:
+
+```
+verdict = pendingRewards >= claimFee × 2.0 ? "CLAIM NOW" : "WAIT"
+```
+
+The **Breakeven Threshold** shown in the UI is simply `claimFee × 2.0`. Your pending rewards must meet or exceed this number before the advisor considers a claim worth executing.
+
+<Note>
+  The 2× multiplier is a conservative efficiency baseline, not a guarantee of profit. Fee spikes — visible as a risk notice at the bottom of the verdict card — can flip the verdict between the time you read it and the time you sign the transaction.
+</Note>
+
+## How to Use the Claim Advisor
+
+<Steps>
+  <Step title="Enter a wallet address">
+    Paste any valid Ethereum-format address (`0x…`, 42 characters) into the search field and click **EXECUTE ANALYSIS**. If your wallet is already connected via the navigation bar, the advisor auto-populates and runs the analysis immediately.
+  </Step>
+  <Step title="Read the verdict">
+    The verdict banner renders in green (**CLAIM NOW**) or amber (**WAIT**) depending on whether your pending rewards clear the 2× threshold. The strategy mode badge (e.g. *Aggressive*) reflects the claim cadence profile associated with the address.
+  </Step>
+  <Step title="Review technical parameters">
+    The parameters panel on the right side of the verdict card shows three values that drove the decision.
+  </Step>
+  <Step title="Read the Intelligent Analysis">
+    Below the verdict card, a prose explanation translates the raw numbers into operational context — including how many times your rewards currently cover the fee floor and whether waiting or acting is the structurally superior move for your ROI.
+  </Step>
+  <Step title="Take action">
+    Use one of the three action buttons to proceed.
+  </Step>
+</Steps>
+
+## Data Points Explained
+
+<CardGroup cols={2}>
+  <Card title="Pending Rewards" icon="coins">
+    The total hCASH balance accrued since your last claim, as read from the protocol. This is the gross amount you would receive before fees.
+  </Card>
+  <Card title="Estimated Claim Fee" icon="receipt">
+    The current network-estimated cost to execute a claim transaction, denominated in hCASH. This value fluctuates with network congestion. It is displayed in red to signal that it reduces your net yield.
+  </Card>
+  <Card title="Breakeven Threshold" icon="scale">
+    Calculated as `claimFee × 2.0`. Your pending rewards must reach this level before the advisor recommends claiming. Hover the label in the UI to see a tooltip with the exact logic.
+  </Card>
+  <Card title="Strategy Mode" icon="sliders">
+    A profile tag derived from the claiming history of the address — for example, *Aggressive* or *Conservative*. This is contextual metadata, not an input to the threshold calculation.
+  </Card>
+</CardGroup>
+
+### Last Claim
+
+Displayed alongside the strategy mode, **Last Claim** shows how long ago the wallet last executed a claim (e.g. *3 days ago*). It provides temporal context for how quickly rewards have accumulated since the previous transaction.
+
+## The Intelligent Analysis Section
+
+The blue-bordered panel below the verdict card renders a two-paragraph natural-language interpretation:
+
+- **Paragraph 1** states how many hCASH have accumulated and characterizes current network conditions as favorable or challenging for claims.
+- **Paragraph 2** gives the specific coverage ratio — your rewards as a multiple of the fee — and explains whether you are above or below the 2× efficiency threshold and what action follows from that.
+
+This section requires no API call; it is generated client-side from the same data powering the verdict card.
+
+## Action Buttons
+
+Three quick-action buttons appear in the verdict card:
+
+<CardGroup cols={3}>
+  <Card title="CLAIM NOW" icon="bolt">
+    A visual prompt to act on the verdict. HashPilot is read-only and does not initiate transactions — you execute the claim directly in the Club HashCash interface. The button is emphasized (solid green) when the verdict is CLAIM NOW, and de-emphasized when the verdict is WAIT.
+  </Card>
+  <Card title="SET ALERT" icon="bell">
+    A reminder prompt for monitoring your position. Use it as a visual cue to check back when conditions are expected to improve.
+  </Card>
+  <Card title="VIEW FULL OPS SNAPSHOT" icon="layout-dashboard" href="/dashboard/overview">
+    Navigates to the full Tactical Dashboard showing live network stats, price feeds, and claim cycle progress.
+  </Card>
+</CardGroup>
+
+## Testing with the Demo Wallet
+
+A pre-loaded demo wallet is available for exploring the tool without connecting your own address:
+
+```
+0x8f9a59b6574f9bf10398863673c6c06a6c0735d9
+```
+
+Click **Use demo wallet** beneath the search field. This wallet resolves to:
+
+| Parameter | Value |
+|---|---|
+| Pending Rewards | 450.25 hCASH |
+| Estimated Claim Fee | 15.40 hCASH |
+| Breakeven Threshold | 30.80 hCASH |
+| Verdict | **CLAIM NOW** (450.25 ÷ 15.40 = 29.2× coverage) |
+| Strategy Mode | Aggressive |
+| Last Claim | 3 days ago |
+
+<Tip>
+  The best time to act on a CLAIM NOW verdict is during off-peak network hours, when the estimated fee is at its daily minimum. Even a small fee dip improves your net yield, and rewards that already clear 29× coverage lose very little to timing variation. For addresses hovering near the 2× boundary, monitoring fee levels before claiming can meaningfully shift the efficiency outcome. See [Claim Strategy](/mechanics/claim-strategy) for a full guide on timing claims around network surge periods.
+</Tip>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Claim Strategy" href="/mechanics/claim-strategy" icon="clock">
+    Deep-dive into surge vs. normal rate windows and how to time claims for maximum net yield.
+  </Card>
+  <Card title="hCASH Economics" href="/mechanics/hcash-economics" icon="chart-line">
+    Understand how hCASH emission rates, protocol fees, and market price interact.
+  </Card>
+  <Card title="Dashboard Overview" href="/dashboard/overview" icon="layout-dashboard">
+    The full operational snapshot referenced by the VIEW FULL OPS SNAPSHOT button.
+  </Card>
+  <Card title="ROI Calculator" href="/dashboard/roi-calculator" icon="calculator">
+    Model claim frequency against compounding returns to find your optimal cadence.
+  </Card>
+</CardGroup>

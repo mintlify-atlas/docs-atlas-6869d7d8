@@ -1,0 +1,150 @@
+---
+title: "HashCash facility tiers: power limits and upgrades"
+description: "STARTER through ELITE facilities each set a hard power ceiling. Learn the 85% rule, upgrade earnings boosts, and when to move up a tier in HashCash."
+---
+
+Your facility is not just a backdrop — it is the hard constraint that determines how many miners you can run and which ones. Every facility tier imposes a power ceiling: the total wattage of all deployed miners cannot exceed it. Exceed that ceiling and miners sit idle; stay too close to it and you have no room to grow.
+
+Understanding how tiers interact with power budgets, and when the math on an upgrade pencils out, is one of the highest-leverage decisions in HashCash.
+
+## The four facility tiers
+
+HashCash facilities run on four tiers, in ascending order:
+
+<Steps>
+  <Step title="STARTER">
+    The entry point. Low power ceiling limits you to modest deployments — typically a handful of Entry-tier miners. Suitable for learning the mechanics, but operationally constrained.
+  </Step>
+  <Step title="STANDARD">
+    The most common operational tier for active players. Supports a meaningful number of Mid-tier miners or a mixed fleet of Entry and Mid hardware.
+  </Step>
+  <Step title="ADVANCED">
+    Unlocks the ability to run power-hungry Pro-tier miners at scale. Operators who have built up hCASH reserves typically target ADVANCED as their first major upgrade.
+  </Step>
+  <Step title="ELITE">
+    The maximum tier. Required to run multiple Elite-tier miners like the Jvidia JX500, Plasma Absolute, or Stormcore Superconductor at full deployment. The cost is significant; the hashrate ceiling is the highest available.
+  </Step>
+</Steps>
+
+<Note>
+The FOMO Machine scenario engine models the upgrade path in detail. It calculates the opportunity cost of each day you spend on a lower tier and can show you the exact hCASH delta of upgrading sooner.
+</Note>
+
+---
+
+## Power ceiling and the 85% rule
+
+Each facility tier sets a maximum total power draw. The critical planning number is not the ceiling itself — it is how close you run to it.
+
+<Warning>
+The HashPilot AI consultant's standing recommendation is to **never fill your facility's power capacity above 85%**. Running at 90–100% leaves no room to swap in a new miner without first removing an existing one, and it creates operational brittleness if power draw estimates are slightly off.
+</Warning>
+
+In practice this means: if your facility's power ceiling is, say, 5,000 W, plan your fleet to consume no more than 4,250 W. The remaining 750 W is your operational buffer — enough to trial a new miner or absorb a future acquisition without immediate reshuffling.
+
+### Planning your power budget
+
+Before adding a miner, run this check:
+
+```
+currentDraw + newMinerPower ≤ facilityCeiling × 0.85
+```
+
+If this check fails, you have two options: remove a lower-performing miner to free up headroom, or upgrade your facility tier.
+
+<Accordion title="Example: Can an ADVANCED facility support a Jvidia JX450?">
+Suppose your ADVANCED facility supports 8,000 W and you are currently drawing 6,000 W.
+
+- 85% ceiling = 6,800 W
+- JX450 power draw = 800 W
+- New total = 6,800 W
+
+That sits exactly at the 85% threshold. It is technically within budget, but leaves zero buffer. A safer approach would be to retire one lower-hashrate miner first to recover headroom, then add the JX450.
+</Accordion>
+
+---
+
+## The upgrade path and earnings boost
+
+The FOMO Machine models facility upgrades using a straightforward boost factor:
+
+```
+boostFactor = (targetTierIndex - currentTierIndex) × 0.4
+extraDailyHCASH = currentDailyHCASH × boostFactor
+```
+
+Tier indices: STARTER = 0, STANDARD = 1, ADVANCED = 2, ELITE = 3.
+
+This means:
+
+| Current → Target | Tier Jumps | Daily Earnings Boost |
+|---|---|---|
+| STARTER → STANDARD | 1 | +40% |
+| STARTER → ADVANCED | 2 | +80% |
+| STARTER → ELITE | 3 | +120% |
+| STANDARD → ADVANCED | 1 | +40% |
+| STANDARD → ELITE | 2 | +80% |
+| ADVANCED → ELITE | 1 | +40% |
+
+<Tip>
+The FOMO Machine's "Cost of Waiting" panel calculates that **staying one tier below your optimal level costs roughly 40% of your daily earnings per day**. At 25 hCASH/day, that is 10 hCASH/day in foregone production. Over 30 days, that is 300 hCASH — potentially more than the upgrade itself costs.
+</Tip>
+
+---
+
+## Strategic tradeoff: density vs. efficiency
+
+The power ceiling forces a genuine strategic choice between two fleet archetypes.
+
+<CardGroup cols={2}>
+  <Card title="High-density, low-power fleet" icon="microchip">
+    Fill your facility with many efficient, low-wattage miners. Examples: CPU Miner v2.0 (100 W), Lightning G3 (100 W), RedDragon TiX (100 W). You fit more units, spreading risk across a larger number of NFTs, but individual hashrate per slot is lower.
+
+    **Best for:** STARTER and STANDARD facilities, or operators who want liquidity across many positions.
+  </Card>
+  <Card title="High-hashrate, high-power fleet" icon="server">
+    Commit to fewer, more powerful miners. Examples: Jvidia JX450 (800 W, 400 TH/s), HashTech Beast2 ASIC (1,000 W, 350 TH/s). Fewer units consume the power budget, but each unit contributes substantially more hashrate.
+
+    **Best for:** ADVANCED and ELITE facilities, or operators optimizing for maximum TH/s from a fixed power budget.
+  </Card>
+</CardGroup>
+
+The right answer depends on your facility tier, your hCASH reserves, and your secondary-market strategy. High-density fleets are easier to partially liquidate; high-hashrate fleets are harder to move but more capital-efficient per watt in the right facility.
+
+---
+
+## When to upgrade
+
+<Accordion title="Upgrade checklist: Is it time to move up a tier?">
+Use this checklist before committing to an upgrade:
+
+1. **Power headroom check** — Are you above 75% capacity and unable to add meaningful miners without hitting 85%?
+2. **Earnings gap** — Does the 40% daily boost from the next tier, compounded over 30 days, exceed the upgrade cost?
+3. **Miner pipeline** — Do you already own (or plan to acquire) miners that require the higher power ceiling to operate?
+4. **Network conditions** — Is network hashrate stable or declining? Upgrading during a hashrate surge may compress your gains faster than projected.
+
+If you answer yes to three or more, upgrading is almost certainly the correct move.
+</Accordion>
+
+<Accordion title="How the FOMO Machine calculates upgrade ROI">
+The FOMO Machine's Upgrade Path scenario takes your current daily hCASH, applies the `boostFactor` for the tier jump you specify, multiplies by the number of days you model, and returns the total additional hCASH you would have earned. It also surfaces the opportunity cost of *not* upgrading as a running daily loss figure — typically 40% of your current daily rate per tier gap.
+</Accordion>
+
+---
+
+## Tools for facility decisions
+
+<CardGroup cols={2}>
+  <Card title="ROI Calculator" href="/dashboard/roi-calculator" icon="calculator">
+    Model how long a facility upgrade pays for itself at your current daily earnings rate.
+  </Card>
+  <Card title="Miner Compare" href="/dashboard/miner-compare" icon="chart-bar">
+    Compare the power draw and hashrate of miners you are considering to validate they fit your power budget.
+  </Card>
+  <Card title="FOMO Machine" href="/tools/fomo-machine" icon="trending-up">
+    Run the Upgrade Path scenario to see the exact hCASH cost of staying on your current tier.
+  </Card>
+  <Card title="Oracle — Scenario Simulation" href="/tools/oracle" icon="eye">
+    Model how a facility upgrade interacts with network hashrate growth across Bear, Base, and Bull scenarios.
+  </Card>
+</CardGroup>

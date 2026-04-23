@@ -1,0 +1,99 @@
+---
+title: "Setting up HashPilot locally: install and configure"
+description: "Clone HashPilot, install dependencies with npm, configure your Anthropic API key in .env.local, and start the dev server. Node.js 18+ required."
+---
+
+HashPilot is a Next.js 14 App Router application. Running it locally requires Node.js 18 or later and an Anthropic API key for AI features. The dashboard and static analytics work immediately after install — AI-powered tools activate once you add your key.
+
+<Note>
+  Node.js 18 or later is required. Check your version with `node --version` before proceeding.
+</Note>
+
+## Setup steps
+
+<Steps>
+  <Step title="Clone the repository">
+    Pull the HashPilot source from GitHub.
+
+    ```bash
+    git clone https://github.com/natureloved/HashPilot.git
+    cd HashPilot
+    ```
+  </Step>
+
+  <Step title="Install dependencies">
+    Install all npm packages. This includes Next.js, the Anthropic SDK, Wagmi, RainbowKit, and the rest of the stack.
+
+    ```bash
+    npm install
+    ```
+  </Step>
+
+  <Step title="Configure your environment">
+    Create a `.env.local` file in the project root and add your Anthropic API key.
+
+    ```text .env.local
+    ANTHROPIC_API_KEY=your_api_key_here
+    ```
+
+    <Warning>
+      Never commit `.env.local` to version control. It is already listed in `.gitignore` by default in Next.js projects — verify this before pushing.
+    </Warning>
+
+    If you do not have a key yet, see [Configure your Anthropic API key](/setup/api-keys) for step-by-step instructions on obtaining one.
+  </Step>
+
+  <Step title="Start the development server">
+    Run the local dev server. The terminal will be available at `http://localhost:3000`.
+
+    ```bash
+    npm run dev
+    ```
+  </Step>
+</Steps>
+
+## What works without an API key
+
+Some features are fully functional without `ANTHROPIC_API_KEY` set. Others will return an error until the key is configured.
+
+<Columns cols={2}>
+  <Card title="Works immediately" icon="circle-check" color="#22C55E">
+    - Tactical Dashboard (live hCASH price, network status, claim cycle)
+    - Claim Advisor analysis and verdict UI
+    - Halving Tracker and ROI Calculator
+    - Miner Archetypes assessment
+    - FOMO Machine counterfactual inputs
+  </Card>
+  <Card title="Requires API key" icon="key" color="#F59E0B">
+    - AI Strategy Chat (`/api/chat`)
+    - Oracle scenario readings (`/api/oracle`)
+    - FOMO Machine narrative debrief (`/api/fomo-story`)
+    - Daily Intel Digest on Dashboard (`/api/digest`)
+  </Card>
+</Columns>
+
+When an AI feature is called without a valid key, the API returns:
+
+```json
+{ "error": "API configuration missing. Please set ANTHROPIC_API_KEY." }
+```
+
+## Available scripts
+
+| Script | Command | Description |
+|--------|---------|-------------|
+| Development | `npm run dev` | Starts Next.js dev server with hot reload |
+| Production build | `npm run build` | Compiles and optimizes for production |
+| Production server | `npm run start` | Serves the compiled build |
+| Lint | `npm run lint` | Runs Next.js ESLint checks |
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Get an API key" icon="key" href="/setup/api-keys">
+    Create your Anthropic account and configure the key for AI features.
+  </Card>
+  <Card title="Deploy to production" icon="rocket" href="/setup/deployment">
+    Push HashPilot to Vercel or another Next.js-compatible host.
+  </Card>
+</Columns>

@@ -1,0 +1,169 @@
+---
+title: "ROI Calculator: simulate and project hCASH earnings"
+description: "Calculate daily, weekly, and monthly hCASH earnings from your hashrate and network share, factoring in facility tier and current electricity rate conditions."
+---
+
+The ROI Calculator is HashPilot's simulation console. Enter your hashrate, the current network hashrate, the hCASH spot price, your facility tier, and the current electricity rate — then run the simulation to see a full earnings projection with gross and net daily figures, an efficiency score, and a 7-day bar chart. Use it before purchasing hardware to verify the payback math, or during active operations to check whether current rate conditions are eroding your returns.
+
+## How the earnings formula works
+
+Every projection in the ROI Calculator derives from a single core formula:
+
+```
+dailyGross = 1.25 × (yourHashrate / networkHashrate) × 43,200
+```
+
+Where:
+
+- `1.25` is the current hCASH block reward (post second halving)
+- `yourHashrate / networkHashrate` is your fractional share of total network output
+- `43,200` is the number of Avalanche blocks produced per day at the ~2-second block time
+
+Your **net daily earnings** apply the claim fee on top:
+
+```
+dailyNet = dailyGross × (1 - claimFee)
+```
+
+The claim fee is determined by the electricity rate you select (see [Rate tiers](#rate-tiers) below).
+
+<Note>
+  The default network hashrate in the calculator is **241.85 GH/s** (241,850 TH/s) — the same baseline used across all HashPilot tools. You can adjust this if you have reason to believe the current network figure differs significantly from that baseline.
+</Note>
+
+## Configuration inputs
+
+The left panel of the ROI Calculator contains all the variables you control.
+
+<Steps>
+  <Step title="Enter your hashrate">
+    Set **MY HASHRATE (TH/s)** to your total deployed hashrate. If you have multiple miners, add their individual TH/s values together. The field defaults to 500 TH/s. When a wallet is connected, a **SYNCED** badge appears indicating the field has been populated from your on-chain miner data.
+  </Step>
+  <Step title="Confirm network hashrate">
+    The **NETWORK HASHRATE (TH/s)** field defaults to 241.85. Adjust this if you want to model a scenario where the network has grown (higher value) or contracted (lower value). A growing network means your share percentage shrinks even if your absolute hashrate stays constant.
+  </Step>
+  <Step title="Set the hCASH price">
+    The **hCASH PRICE (USD)** field auto-fills with the live price from DEX Screener, indicated by a green **LIVE** badge. Override it with any value to model a bear or bull price scenario and see how it changes the USD-denominated earnings figures.
+  </Step>
+  <Step title="Select facility tier">
+    Choose from **STARTER**, **STANDARD**, **ADVANCED**, or **ELITE**. The tier is factored into the efficiency score calculation and the strategy tip output. Higher tiers indicate more capable infrastructure with greater miner capacity and lower operational friction.
+  </Step>
+  <Step title="Select the current rate">
+    Pick the electricity or claim rate that matches your current operating conditions. See the [Rate tiers](#rate-tiers) section below for fee percentages.
+  </Step>
+  <Step title="Run the simulation">
+    Click **RUN SIMULATION**. The right panel shows a 1.5-second initialization sequence before revealing the full earnings projection. Re-run at any time after changing inputs.
+  </Step>
+</Steps>
+
+## Rate tiers
+
+The **Current Rate** selector controls the claim fee percentage deducted from gross earnings to arrive at net earnings.
+
+| Rate | Claim fee | When to use |
+|---|---|---|
+| NORMAL | 5% | Standard conditions — minimum claim fees |
+| MEDIUM | 10% | Moderate network activity — acceptable for large balances |
+| HIGH | 15% | Elevated conditions — approach with caution |
+| SURGE | 25% | Peak demand — fees are significantly elevated, delay claiming |
+
+<Warning>
+  If you select **SURGE**, the strategy tips panel will emit an active warning showing the exact hCASH/day you are losing to fees. The Claim Advisor tool recommends delaying claims during surge periods rather than paying the inflated rate.
+</Warning>
+
+## Reading the projection output
+
+After running the simulation, the right panel displays your full earnings breakdown.
+
+### Daily earnings headline
+
+The most prominent figure is **DAILY EARNINGS (NET)** — the hCASH you take home after fees, displayed in large display font alongside its USD equivalent based on the price you entered.
+
+### Projection grid
+
+Four metric tiles give you the wider time-horizon view:
+
+| Metric | Calculation |
+|---|---|
+| Weekly net hCASH | `dailyNet × 7` |
+| Monthly net hCASH | `dailyNet × 30` |
+| Network share | `(yourHashrate / networkHashrate) × 100` |
+| Effective fee rate | The claim fee percentage for the selected rate |
+
+### Efficiency score
+
+A circular gauge in the top-right of the projection panel shows a score from 0–100. The score blends two factors: how much of your gross earnings survive after fees (fee efficiency), and how large your network share is relative to a 1% benchmark (scale efficiency). The color codes are:
+
+- **Red (0–40)**: poor configuration — high fees or very low network share
+- **Amber (41–70)**: acceptable but room to improve
+- **Green (71–100)**: strong setup
+
+### 7-day bar chart
+
+The chart plots **Gross** (amber) and **Net** (green) daily earnings side by side for a 7-day window. Since the inputs are static, both bars are flat across the 7 days — this view makes the fee drag visually immediate. A wide gap between the amber and green bars signals a rate tier worth reconsidering.
+
+## Strategy tips
+
+Below the chart, the calculator surfaces a context-aware strategy tip:
+
+- **Surge rate active**: warns you of the exact daily fee cost and recommends delaying claims
+- **Whale status** (network share >0.1%): notes that you control a significant slice of network output and should prioritize uptime
+- **Standard conditions**: confirms your setup is optimized and operating at a healthy efficiency level
+
+<Tip>
+  Use the ROI Calculator alongside the [Halving Tracker](/dashboard/halving-tracker) personal impact calculator. The ROI Calculator shows current returns; the Halving Tracker models how those returns change after the next block reward cut. Running both gives you the full picture before any purchase decision.
+</Tip>
+
+## Common use cases
+
+<AccordionGroup>
+  <Accordion title="Evaluating a new miner purchase">
+    Find the miner's hashrate in the [Miner Catalog](/mechanics/miner-catalog) or [Miner Comparison](/dashboard/miner-compare) page. Enter that hashrate into the ROI Calculator alongside your current network hashrate. The daily net earnings figure tells you how many days until cumulative earnings equal the miner's price — the effective payback period.
+
+    Cross-check this against the pre-computed `paybackDays` shown on the Miner Comparison page to verify the numbers match.
+  </Accordion>
+  <Accordion title="Modeling a network hashrate increase">
+    If the Club HashCash network grows — for example, after a popular miner release drives many new operators onto the protocol — your existing hashrate represents a smaller share of total output. Increase the **NETWORK HASHRATE** field to model this dilution effect and decide whether you need additional miners to maintain your current daily earnings target.
+  </Accordion>
+  <Accordion title="Choosing the right time to claim">
+    Run the simulation at NORMAL and SURGE rates back-to-back. The difference in daily net earnings quantifies exactly how much you lose by claiming during surge. If that gap exceeds the opportunity cost of waiting, the [Claim Advisor](/tools/claim-advisor) signal is the right next stop.
+  </Accordion>
+  <Accordion title="Stress-testing against a bear market">
+    Set the hCASH price to a fraction of the current live price and re-run the simulation. The USD figures in the projection grid show whether your operation remains economically meaningful under adverse price conditions, helping you decide on minimum acceptable price floors before scaling infrastructure spend.
+  </Accordion>
+</AccordionGroup>
+
+## Network share and scale
+
+Your earnings scale linearly with your hashrate share. Doubling your hashrate exactly doubles your daily gross — the network does not impose diminishing returns on individual operators. This makes the calculation straightforward:
+
+```
+networkShare (%) = (yourHashrate / networkHashrate) × 100
+
+dailyGross      = 1.25 × (networkShare / 100) × 43,200
+```
+
+At the default 241,850 TH/s network and 1.25 hCASH/block reward, the total daily protocol emission is:
+
+```
+1.25 × 43,200 = 54,000 hCASH/day distributed across all miners
+```
+
+Every percentage point of network share you hold earns you 540 hCASH/day gross before fees.
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Miner Comparison" icon="chart-bar" href="/dashboard/miner-compare">
+    Find the miners with the best hashrate-per-hCASH ratio before running ROI projections.
+  </Card>
+  <Card title="Halving Tracker" icon="clock" href="/dashboard/halving-tracker">
+    Model how the next block reward cut will reduce your projected earnings.
+  </Card>
+  <Card title="Claim Advisor" icon="shield" href="/tools/claim-advisor">
+    Get an AI-driven recommendation on whether current rate conditions warrant claiming now or waiting.
+  </Card>
+  <Card title="Mining Fundamentals" icon="pickaxe" href="/mechanics/mining-fundamentals">
+    Understand the underlying block reward mechanics that power every ROI calculation.
+  </Card>
+</CardGroup>

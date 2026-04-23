@@ -1,0 +1,116 @@
+---
+title: "Club HashCash mining fundamentals and earnings math"
+description: "How the core mining loop works — buying miners, earning hCASH proportional to your hashrate share, and claiming rewards at the right rate window."
+---
+
+Club HashCash is an on-chain mining simulation on Avalanche where your earnings are determined by one thing: your share of the total network hashrate. The more hashrate you contribute relative to every other miner on the network, the more hCASH you earn from each block. Understanding this proportional model is the foundation of every decision you make in the game.
+
+## The mining loop
+
+<Steps>
+  <Step title="Buy a miner NFT">
+    Purchase a miner from the in-game shop or the secondary marketplace. Each miner has two key stats: hashrate (TH/s) — which determines your earning power — and power consumption (W), which determines how many miners you can run simultaneously inside a facility.
+  </Step>
+  <Step title="Assign it to a facility">
+    Slot your miner into a facility. Each facility tier has a power capacity ceiling. If your miners' combined power draw exceeds that ceiling, you cannot activate all of them — you must choose which rigs to run.
+  </Step>
+  <Step title="Earn hCASH every block">
+    Every ~2 seconds, Avalanche produces a block. Each block emits 1.25 hCASH, distributed across all active miners proportional to their hashrate share. Your rigs accumulate hCASH continuously while active.
+  </Step>
+  <Step title="Claim at the right time">
+    Claiming moves your accumulated hCASH on-chain and incurs a transaction fee. Electricity rates fluctuate between Normal, Elevated, and Surge. Claim fees are significantly higher during Surge — timing your claims to Normal rate windows protects your margins.
+  </Step>
+</Steps>
+
+## The earnings formula
+
+Your daily hCASH earnings are calculated as:
+
+```
+dailyEarnings = blockReward × (yourHashrate / networkHashrate) × blocksPerDay
+             = 1.25 × (myTH/s ÷ networkTH/s) × 43,200
+```
+
+### Worked example
+
+A player running **500 TH/s** on a network with a total hashrate of **241,850 TH/s**:
+
+```
+networkShare  = 500 / 241,850 = 0.00207 (0.207%)
+dailyEarnings = 1.25 × 0.00207 × 43,200 ≈ 111.5 hCASH/day
+```
+
+<Note>
+  The network hashrate shown on your dashboard (241.85 GH/s) is the live baseline. Your actual earnings update as other players add or remove rigs.
+</Note>
+
+## Network share dilution
+
+Your hashrate is fixed — the network's is not. Every new miner that joins the network dilutes your share.
+
+| Scenario | Your hashrate | Network hashrate | Your share | Daily earnings |
+|---|---|---|---|---|
+| Current | 500 TH/s | 241,850 TH/s | 0.207% | ~111.5 hCASH |
+| Network doubles | 500 TH/s | 483,700 TH/s | 0.103% | ~55.7 hCASH |
+| You double | 1,000 TH/s | 241,850 TH/s | 0.413% | ~223 hCASH |
+
+<Warning>
+  If the network grows faster than your hashrate, your daily earnings decrease even if you do nothing wrong. Reinvesting hCASH into additional miners is how you stay competitive as the network scales.
+</Warning>
+
+## Avalanche block timing
+
+Avalanche produces blocks approximately every 2 seconds, yielding:
+
+```
+blocksPerDay = 86,400 seconds ÷ 2 seconds/block = 43,200 blocks/day
+```
+
+This fast block time means your rewards accumulate smoothly throughout the day rather than in large, infrequent chunks. It also means halvings arrive faster than on slower networks — every 4,200,000 blocks is roughly 97 days at current block rate.
+
+## Facility system and power limits
+
+Facilities define the maximum total power draw (in watts) you can sustain at once. Exceeding that limit means some miners stay offline.
+
+<CardGroup cols={2}>
+  <Card title="Starter and Standard tiers" icon="server">
+    Lower power ceilings suit entry-level CPU and GPU rigs. Good for players building their first rig stack without over-investing in facility upgrades.
+  </Card>
+  <Card title="Advanced and Elite tiers" icon="bolt">
+    Higher ceilings unlock Pro and Elite miners. The tradeoff is the facility upgrade cost versus the additional earning capacity it enables.
+  </Card>
+</CardGroup>
+
+The strategic decision is whether to run **fewer high-hashrate miners** (expensive, high output) or **many efficient low-power miners** (cheaper, more flexible). Both approaches have merit depending on current network conditions and electricity rates.
+
+## Electricity rates and claim timing
+
+Claim fees are not fixed. Three rate states exist:
+
+- **Normal** — minimum transaction fees, best time to claim
+- **Elevated** — moderate fees, claim if your balance is large enough to absorb them
+- **Surge** — maximum fees, avoid claiming unless absolutely necessary
+
+<Tip>
+  Monitor the Claim Advisor tool before every claim. It reads the current rate state and tells you whether to claim now or hold. Claiming during Surge can erase a meaningful portion of your accumulated rewards.
+</Tip>
+
+## Secondary marketplace
+
+Miner NFTs can be bought and sold on the secondary marketplace in either hCASH or AVAX. This creates two paths for acquiring hardware:
+
+1. **Buy from the shop** at fixed hCASH prices (when available and in supply)
+2. **Buy from other players** on the secondary market, where pricing reflects current demand and the miner's remaining earning potential
+
+Selling a miner you no longer need — for example, an entry-level rig after upgrading to Pro tier — lets you recycle capital into more efficient hardware.
+
+---
+
+<CardGroup cols={2}>
+  <Card title="hCASH economics" icon="coins" href="/mechanics/hcash-economics">
+    Understand token supply, burn mechanics, and how electricity rates affect your bottom line.
+  </Card>
+  <Card title="Halvings" icon="trending-down" href="/mechanics/halvings">
+    Learn how the emission schedule cuts block rewards and what it means for your mining strategy.
+  </Card>
+</CardGroup>

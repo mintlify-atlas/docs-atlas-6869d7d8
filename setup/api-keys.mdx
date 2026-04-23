@@ -1,0 +1,112 @@
+---
+title: "Setting up your Anthropic API key for HashPilot AI"
+description: "Get an API key from console.anthropic.com and add it to .env.local to enable AI Strategy Chat, Oracle readings, FOMO narratives, and Daily Digest."
+---
+
+HashPilot's AI features are powered by Anthropic's Claude. Every AI endpoint reads a single environment variable — `ANTHROPIC_API_KEY` — so setup is straightforward whether you're running locally or deploying to Vercel.
+
+## Get your API key
+
+<Steps>
+  <Step title="Create an Anthropic account">
+    Go to [console.anthropic.com](https://console.anthropic.com) and sign up or log in.
+  </Step>
+
+  <Step title="Create a new API key">
+    In the Anthropic Console, navigate to **API Keys** and click **Create Key**. Give it a descriptive name (for example, `hashpilot-local`).
+  </Step>
+
+  <Step title="Copy the key">
+    Copy the key immediately after creation. Anthropic will not show it again. If you lose it, you will need to create a new one.
+
+    API keys follow the format `sk-ant-api03-...`.
+  </Step>
+
+  <Step title="Add the key to HashPilot">
+    Create or open `.env.local` in the project root and paste your key:
+
+    ```text .env.local
+    ANTHROPIC_API_KEY=sk-ant-api03-...
+    ```
+
+    Restart the dev server if it is already running so Next.js picks up the new value.
+  </Step>
+</Steps>
+
+<Warning>
+  Never commit `.env.local` to git. Your API key grants full billing access to your Anthropic account. Treat it like a password.
+</Warning>
+
+## Setting the key in Vercel
+
+For production deployments on Vercel, environment variables are set through the project dashboard — not in code.
+
+<Steps>
+  <Step title="Open your project settings">
+    In the Vercel dashboard, go to your HashPilot project and click **Settings → Environment Variables**.
+  </Step>
+
+  <Step title="Add the variable">
+    - **Name**: `ANTHROPIC_API_KEY`
+    - **Value**: your API key (`sk-ant-api03-...`)
+    - **Environment**: select Production (and optionally Preview)
+
+    Click **Save**.
+  </Step>
+
+  <Step title="Redeploy">
+    Trigger a new deployment. Vercel injects environment variables at build and runtime — no code changes are needed.
+  </Step>
+</Steps>
+
+<Tip>
+  If you want AI features available in Vercel Preview deployments as well, add the key to the **Preview** environment in addition to Production.
+</Tip>
+
+## Which endpoints use the key
+
+All four AI endpoints read `ANTHROPIC_API_KEY` from `process.env`. None of the endpoints cache or store responses.
+
+<AccordionGroup>
+  <Accordion title="/api/chat — AI Strategy Chat and Archetype roadmap" icon="message-circle">
+    Powers the real-time streaming chat interface in **AI Strategy Chat** and the **Miner Archetypes** AI roadmap generator. Uses `claude-sonnet-4-6` with a max of 1500 tokens per response. Responses stream token-by-token to the browser.
+
+    If the key is missing or empty, this endpoint returns HTTP 500 with `"API configuration missing."`.
+  </Accordion>
+
+  <Accordion title="/api/oracle — Oracle scenario readings" icon="eye">
+    Powers the **Claim Oracle** decision engine. Receives a scenario matrix (network growth, price move, new players, halvings) and returns a structured verdict: BULLISH / BEARISH / UNCERTAIN, plus a recommended action. Uses `claude-sonnet-4-6` with a max of 1000 tokens per reading.
+  </Accordion>
+
+  <Accordion title="/api/fomo-story — FOMO Machine narrative debrief" icon="zap">
+    Generates the narrative debrief in the **FOMO Machine** after the counterfactual simulation runs. Describes opportunity cost in the terminal's retro-tactical voice. Uses `claude-sonnet-4-6`.
+  </Accordion>
+
+  <Accordion title="/api/digest — Daily intel digest" icon="newspaper">
+    Populates the **Daily Digest** card on the Dashboard with a fresh tactical summary. Uses `claude-sonnet-4-6` with a max of 1000 tokens per digest.
+  </Accordion>
+</AccordionGroup>
+
+## Usage and cost
+
+All endpoints use the `claude-sonnet-4-6` model. Per-request token limits are:
+
+| Endpoint | Max tokens |
+|----------|-----------|
+| `/api/chat` | 1500 |
+| `/api/oracle` | 1000 |
+| `/api/fomo-story` | 1500 |
+| `/api/digest` | 500 |
+
+Costs depend on your Anthropic usage tier and the number of requests made. Refer to [Anthropic's pricing page](https://www.anthropic.com/pricing) for current rates. HashPilot does not store or reuse AI responses — each interaction calls the API fresh.
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Run locally" icon="terminal" href="/setup/environment">
+    Set up and start the dev server on your machine.
+  </Card>
+  <Card title="Deploy to production" icon="rocket" href="/setup/deployment">
+    Push to Vercel and configure the key in your project settings.
+  </Card>
+</Columns>

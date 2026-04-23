@@ -1,122 +1,87 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "HashPilot",
+  "theme": "aspen",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#F5A623",
+    "dark": "#050B18"
   },
-  "favicon": "/favicon.svg",
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/natureloved/HashPilot"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/natureloved/HashPilot"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Get Started",
+            "pages": ["introduction", "quickstart", "connecting-wallet"]
+          },
+          {
+            "group": "Core Tools",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "tools/claim-advisor",
+              "tools/oracle",
+              "tools/fomo-machine",
+              "tools/miner-archetypes"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Dashboard & Analytics",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "dashboard/overview",
+              "dashboard/halving-tracker",
+              "dashboard/miner-compare",
+              "dashboard/roi-calculator"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "AI Strategy Chat",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "ai/strategy-chat",
+              "ai/oracle-readings"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Setup & Configuration",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "setup/environment",
+              "setup/api-keys",
+              "setup/deployment"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Game Mechanics",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "HashCash Protocol",
             "pages": [
-              "api-reference/introduction"
+              "mechanics/mining-fundamentals",
+              "mechanics/hcash-economics",
+              "mechanics/halvings"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Miners & Facilities",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "mechanics/miner-catalog",
+              "mechanics/facility-tiers",
+              "mechanics/claim-strategy"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    ]
   }
 }

@@ -1,0 +1,173 @@
+---
+title: "Miner Comparison: pick the right HashCash hardware"
+description: "Filter, sort, and compare all 32 Club HashCash miners by hashrate, efficiency, payback, and price. Use the budget optimizer to build your ideal fleet."
+---
+
+The Miner Comparison page gives you a full catalog view of every miner available in Club HashCash, from the 10 TH/s entry-level Home Brew CPU Miner to the 3,960 TH/s Jvidia JX 420-RC-12 rackmount beast. Use the filters, sorting controls, and side-by-side comparison drawer to make an informed purchase decision rather than guessing which unit gives you the best return for your hCASH.
+
+## Miner tiers
+
+All 32 miners are organized into four tiers. Tier determines the type of hardware and the general performance bracket, not a hard lock on which facility tier you need.
+
+| Tier | Color | General profile |
+|---|---|---|
+| **Entry** | Blue | Low cost, low hashrate, high supply caps. Good starting points. |
+| **Mid** | Green | Balanced cost-to-hash ratio. Rigs and dual-GPU configurations. |
+| **Pro** | Amber | ASICs and high-density GPU arrays. Strong hashrate, higher buy-in. |
+| **Elite** | Red | Top-tier hardware with extreme hashrate or near-zero power draw. |
+
+<Note>
+  Some miners have a `priceHCASH` of 99,999 — this is the internal sentinel value indicating the miner is **not currently available** for purchase with hCASH. They may be obtainable through AVAX pricing or special events. Always check both price columns before assuming a miner is inaccessible.
+</Note>
+
+## Key metrics explained
+
+Before comparing miners, understand what each column represents.
+
+<AccordionGroup>
+  <Accordion title="Hashrate (TH/s)">
+    The raw computational output of the miner in terahashes per second. Higher is better for raw earnings, but hashrate alone does not tell you how efficient or cost-effective the unit is. Your hashrate share of the 241,850 TH/s network determines your portion of the 1.25 hCASH/block reward.
+  </Accordion>
+  <Accordion title="Power (W)">
+    The wattage the miner draws from your facility's power allocation. Facilities have a total power cap, so every watt counts. A miner with high hashrate but extreme power draw can crowd out other units and reduce your effective total output.
+  </Accordion>
+  <Accordion title="Efficiency (TH/W)">
+    Calculated as `hashrate ÷ power`. This is the single most useful number for comparing miners under a power constraint. A miner drawing 1W with 1,000 TH/s (like the Stormcore Superconductor) has a dramatically higher efficiency rating than a 2,600W unit producing 3,960 TH/s, even though the latter has more raw output.
+
+    ```
+    efficiency = hashrate / power
+    ```
+
+    The comparison UI color-codes efficiency: green for above 0.05, amber for 0.02–0.05, red for below 0.02.
+  </Accordion>
+  <Accordion title="Payback period (days)">
+    The number of days until cumulative mining earnings cover the miner's purchase price. Calculated as:
+
+    ```
+    dailyEarnings = 1.25 × (hashrate / 241,850) × 43,200
+    paybackDays   = priceHCASH / dailyEarnings
+    ```
+
+    Shorter payback is better for capital efficiency. A miner with a 30-day payback is earning back its cost much faster than one with a 200-day payback — all else being equal.
+  </Accordion>
+  <Accordion title="Hash per hCASH">
+    Calculated as `hashrate ÷ priceHCASH`. This tells you how much hashing power you are buying per unit of hCASH spent. Use it when comparing miners of similar tier to find which delivers the most throughput per coin spent.
+
+    ```
+    hashPerHCASH = hashrate / priceHCASH
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Filtering and sorting the catalog
+
+The sticky filter bar at the top of the page lets you narrow the catalog before doing any comparison.
+
+<Steps>
+  <Step title="Select a tier">
+    Click one of the tier buttons — **ALL**, **ENTRY**, **MID**, **PRO**, or **ELITE** — to restrict the view to that hardware class. ALL is the default.
+  </Step>
+  <Step title="Set a budget ceiling">
+    Enter a maximum budget in hCASH in the **MAX BUDGET** field to hide any miner priced above that threshold. Leave it blank to show all miners regardless of price.
+  </Step>
+  <Step title="Choose a sort order">
+    Use the sort dropdown to reorder results by the metric most relevant to your decision:
+
+    | Sort option | What it finds |
+    |---|---|
+    | Price ↑ | Cheapest miners first — best for tight budgets |
+    | Price ↓ | Most expensive first — for Elite-tier shopping |
+    | Hashrate ↑ | Highest raw output first |
+    | Efficiency ↑ | Best TH/W ratio first — best under power constraints |
+    | Payback ↑ | Fastest break-even first — best for capital efficiency |
+  </Step>
+  <Step title="Switch between card and table view">
+    Use the view toggle on the right of the filter bar to switch between the card grid and the table layout. The table view is better for scanning many miners at once; the card view is better for reading individual miner details.
+  </Step>
+</Steps>
+
+## Side-by-side comparison drawer
+
+Select two or more miners by clicking their **COMPARE** checkbox. A comparison drawer slides up from the bottom of the page showing each selected miner's stats in a column.
+
+The drawer includes an automated **Verdict Analysis** panel that identifies:
+
+- The selected miner with the **highest efficiency** (TH/W)
+- The selected miner with the **fastest payback** (lowest days to break even)
+- The selected miner with the **highest raw hashrate**
+
+This lets you quickly see whether a single miner dominates across all three dimensions or whether different units win in different categories — helping you decide which trade-off fits your strategy.
+
+<Tip>
+  Compare three or four miners at once to see a richer verdict. Selecting a high-efficiency low-cost miner alongside a high-hashrate Elite unit makes the trade-offs between budget and raw output immediately visible.
+</Tip>
+
+## Budget optimizer
+
+The sidebar on the right of the page runs an automatic fleet optimizer. Enter two constraints:
+
+- **Budget (hCASH)**: the total hCASH you have available to spend
+- **Power (Watts)**: the total wattage your facility can support
+
+The optimizer applies a greedy algorithm that sorts all 32 miners by hashrate-per-hCASH and allocates units until either the budget or the power cap is exhausted. The recommended fleet is shown below the inputs with per-miner counts, total power draw, and total net hashrate.
+
+Use the optimizer output as a starting point, then cross-reference with the comparison drawer to validate the specific units it selects.
+
+<Warning>
+  The optimizer prioritizes hashrate per hCASH spent. It does not account for supply caps (`maxSupply`), AVAX-only pricing, or personal preference for specific hardware. Some recommended miners may have limited availability. Always verify stock before committing a purchase.
+</Warning>
+
+## Notable miners at a glance
+
+A few miners are worth calling out specifically because they sit at extremes in the catalog:
+
+<CardGroup cols={2}>
+  <Card title="Stormcore Superconductor" icon="zap">
+    **Elite tier** — 1,000 TH/s at 1W draw. Exceptional efficiency (1,000 TH/W). Costs 25,000 hCASH with a supply cap of 10 units. The premier power-constrained option.
+  </Card>
+  <Card title="Jvidia JX 420-RC-12" icon="server">
+    **Elite tier** — 3,960 TH/s at 2,600W. Highest raw hashrate in the catalog. Priced at 99,999 hCASH (sentinel — not available via standard hCASH purchase). Maximum density rackmount configuration.
+  </Card>
+  <Card title="Galactic Hash C" icon="satellite">
+    **Elite tier** — 300 TH/s at 600W (0.5 TH/W efficiency). Costs 10,000 hCASH. Solid mid-range Elite option with a reasonable efficiency score.
+  </Card>
+  <Card title="CPU Miner v2.0" icon="microchip">
+    **Entry tier** — 30 TH/s at 100W. The cheapest miner in the catalog at 100 hCASH with a supply cap of 2,000 units. Ideal first purchase for new operators.
+  </Card>
+</CardGroup>
+
+## Choosing a strategy
+
+Different goals call for different comparison priorities.
+
+<Tabs>
+  <Tab title="Maximize total hashrate">
+    Sort by **Hashrate ↑** and focus on Pro and Elite tier miners. Raw hashrate determines your network share percentage, which directly scales your daily earnings. Accept higher power draw and longer payback periods in exchange for the largest absolute output.
+  </Tab>
+  <Tab title="Minimize payback period">
+    Sort by **Payback ↑** to surface miners that recover their purchase cost fastest. This is the right approach if you want capital efficiency — every hCASH you spend is earning itself back as quickly as possible. Mid-tier miners often win on this metric.
+  </Tab>
+  <Tab title="Work within a power budget">
+    Sort by **Efficiency ↑** and use the power constraint in the optimizer. Facilities have hard wattage caps, so a miner that delivers more TH/s per watt is worth more than one with higher absolute output if it lets you fit additional units under your power ceiling.
+  </Tab>
+  <Tab title="Start with limited hCASH">
+    Set a **MAX BUDGET** that matches your available hCASH and sort by **Price ↑**. Entry-tier miners like the CPU Miner v2.0 (100 hCASH) or the Home Brew CPU Miner (300 hCASH) let you begin mining immediately without waiting to accumulate a larger bankroll.
+  </Tab>
+</Tabs>
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Miner Catalog" icon="list" href="/mechanics/miner-catalog">
+    Full reference table of all 32 miners with complete specs and lore context.
+  </Card>
+  <Card title="ROI Calculator" icon="calculator" href="/dashboard/roi-calculator">
+    Simulate exactly how much a specific miner will earn per day given current network conditions.
+  </Card>
+  <Card title="Facility Tiers" icon="building" href="/mechanics/facility-tiers">
+    Understand power caps and miner slot limits at each facility level before buying hardware.
+  </Card>
+  <Card title="Halving Tracker" icon="clock" href="/dashboard/halving-tracker">
+    Factor in the next emission cut when calculating payback periods and fleet size decisions.
+  </Card>
+</CardGroup>

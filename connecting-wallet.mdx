@@ -1,0 +1,146 @@
+---
+title: "Connecting your Avalanche wallet to HashPilot tools"
+description: "HashPilot supports MetaMask, Coinbase Wallet, and WalletConnect via RainbowKit. All connections are read-only — no signing or transaction approvals."
+---
+
+HashPilot uses [RainbowKit](https://www.rainbowkit.com/) for wallet connections, which means most major Avalanche-compatible wallets work out of the box. The connection is strictly read-only: HashPilot reads your address and uses it to query on-chain data. It never asks you to sign a message, approve a transaction, or grant any permissions beyond identifying your wallet address.
+
+## Supported wallets
+
+RainbowKit detects installed browser extensions and mobile apps automatically. The following wallets are supported:
+
+| Wallet | Browser extension | Mobile (WalletConnect) |
+|---|---|---|
+| MetaMask | Yes | Yes |
+| Coinbase Wallet | Yes | Yes |
+| Rainbow | No | Yes |
+| Trust Wallet | No | Yes |
+| Any WalletConnect-compatible wallet | — | Yes |
+
+If your wallet supports WalletConnect v2, it will appear in the connection modal under **More wallets** even if it isn't listed above.
+
+## Two ways to use HashPilot
+
+You don't need to connect a wallet at all. HashPilot supports two modes:
+
+<CardGroup cols={2}>
+  <Card title="Connected wallet mode" icon="link">
+    Connect via RainbowKit and your address is automatically synced to every tool. Switching between the Claim Advisor, Oracle, and FOMO Machine uses your address without re-entering it. Best for analyzing your own wallet repeatedly.
+  </Card>
+  <Card title="Paste-address mode" icon="clipboard">
+    Paste any valid Avalanche address (`0x...`) directly into the input field on any tool page. No wallet connection required. Works for any address — including wallets you don't control, such as a friend's miner or a public reference address.
+  </Card>
+</CardGroup>
+
+Both modes deliver identical analysis results. The only difference is convenience: connected wallet mode auto-fills your address across tools, while paste-address mode is faster when you just need a one-off lookup.
+
+## How to connect
+
+<Steps>
+  <Step title="Click Connect Wallet">
+    Click the **Connect Wallet** button in the top-right corner of the navigation bar. The RainbowKit modal will open, showing all detected wallets.
+  </Step>
+
+  <Step title="Select your wallet">
+    Choose your wallet from the list. If you're on desktop and have a browser extension installed, it will appear at the top of the list. If you want to connect a mobile wallet, select **WalletConnect** and scan the QR code with your mobile wallet app.
+  </Step>
+
+  <Step title="Approve the connection in your wallet">
+    Your wallet will display a connection request. It will show:
+
+    - The site requesting connection: `hashpilot-taupe.vercel.app`
+    - The permissions requested: **View your wallet address**
+
+    No signing prompt will appear. No transaction will be submitted. Approve the connection to proceed.
+
+    <Note>
+      If your wallet shows a request to sign a message or approve a transaction during the initial connection, do not approve it and disconnect immediately. HashPilot's standard connection flow requests only your address — nothing more.
+    </Note>
+  </Step>
+
+  <Step title="Confirm you're on Avalanche">
+    HashPilot operates exclusively on the Avalanche mainnet (Chain ID: 43114). After connecting, check that your wallet displays the Avalanche network. If it shows a different network, follow the steps in [Switching to Avalanche](#switching-to-avalanche) below.
+
+    Once connected on Avalanche, your address populates automatically in the Claim Advisor input field and you're ready to run your first analysis.
+  </Step>
+</Steps>
+
+## The read-only guarantee
+
+HashPilot connects to Wagmi and queries the Avalanche network through public RPC endpoints. Here is exactly what happens when you connect:
+
+1. RainbowKit reads your wallet address from the extension or mobile app.
+2. HashPilot stores the address in React component state for the current session only.
+3. The address is passed as a query parameter to the Claim Advisor (`/claim-advisor?address=0x...`).
+4. HashPilot uses the address to query Club HashCash on-chain data via public Avalanche RPC.
+5. The analysis result is displayed in your browser. Nothing is stored server-side.
+
+At no point does HashPilot:
+
+- Request a `eth_sign` or `personal_sign` message signature
+- Call `eth_sendTransaction` or any state-changing RPC method
+- Request `eth_accounts` permissions beyond the initial address read
+- Store your address in a database or send it to a third-party service
+
+You can disconnect your wallet at any time by clicking the connected address button in the navigation bar and selecting **Disconnect**. This clears the address from the session. Your wallet extension retains its own connection state independently.
+
+## Switching to Avalanche
+
+If your wallet is connected to a different network (Ethereum mainnet, Polygon, etc.), you need to switch to Avalanche C-Chain before HashPilot can query your data.
+
+<AccordionGroup>
+  <Accordion title="Switch network in MetaMask">
+    1. Open the MetaMask extension.
+    2. Click the network selector at the top (it will show the current network name, such as "Ethereum Mainnet").
+    3. Select **Avalanche Network** from the dropdown. If Avalanche doesn't appear, click **Add a network** and use the parameters below.
+    4. Approve the network switch when prompted.
+  </Accordion>
+  <Accordion title="Switch network in Coinbase Wallet">
+    1. Open Coinbase Wallet.
+    2. Tap the network icon in the top-right corner.
+    3. Select **Avalanche C-Chain** from the network list.
+    4. If it's not listed, tap **Add a custom network** and enter the parameters below.
+  </Accordion>
+  <Accordion title="Add Avalanche manually (all wallets)">
+    If Avalanche doesn't appear in your wallet's network list, add it manually using these parameters:
+
+    | Field | Value |
+    |---|---|
+    | Network name | Avalanche C-Chain |
+    | RPC URL | `https://api.avax.network/ext/bc/C/rpc` |
+    | Chain ID | `43114` |
+    | Currency symbol | `AVAX` |
+    | Block explorer | `https://snowtrace.io` |
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="My wallet isn't detected in the RainbowKit modal">
+    RainbowKit detects browser extensions on page load. If you installed your wallet extension after opening the page, do a hard refresh (`Ctrl+Shift+R` on Windows/Linux, `Cmd+Shift+R` on macOS) and try again. If your wallet still doesn't appear, use the **WalletConnect** option to connect via QR code, or switch to paste-address mode.
+  </Accordion>
+  <Accordion title="My address didn't auto-populate after connecting">
+    The address sync runs when the page mounts. If you connected the wallet after the page was already open, try navigating to the Claim Advisor directly or refreshing the page. Your wallet will reconnect automatically on reload if the connection is still active.
+  </Accordion>
+  <Accordion title="The Claim Advisor shows an error after connecting">
+    If you see "No HashCash data found for this wallet," your connected address doesn't have any Club HashCash miner NFTs or pending rewards on-chain. This is a data issue, not a connection issue. To explore the interface, click **Use demo wallet** to load the demo address instead.
+  </Accordion>
+  <Accordion title="I'm on the wrong network after connecting">
+    If HashPilot queries data but returns incorrect or empty results, your wallet may be connected to the wrong network. The Chain ID shown in your wallet should be `43114` (Avalanche C-Chain). See [Switching to Avalanche](#switching-to-avalanche) above.
+  </Accordion>
+  <Accordion title="Can I use a hardware wallet (Ledger, Trezor)?">
+    Hardware wallets are supported through MetaMask's hardware wallet integration. Connect your Ledger or Trezor to MetaMask first, then connect MetaMask to HashPilot as normal. Because HashPilot is read-only, your hardware wallet will never be prompted to sign anything during a session.
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Walk through your first analysis end-to-end — from opening the terminal to reading your verdict.
+  </Card>
+  <Card title="Claim Advisor" icon="bolt" href="/tools/claim-advisor">
+    Understand how the CLAIM NOW / WAIT verdict is calculated and what the technical parameters mean.
+  </Card>
+</CardGroup>

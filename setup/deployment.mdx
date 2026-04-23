@@ -1,0 +1,112 @@
+---
+title: "Deploy HashPilot to Vercel or any Next.js platform"
+description: "Push HashPilot to Vercel in four steps — no database required. Also covers Netlify, Railway, and self-hosted Node.js deployment options."
+---
+
+HashPilot is a stateless Next.js 14 application — it stores no user data and requires no database. Deploying it is as simple as connecting a repository and setting one environment variable. Vercel is the recommended platform because it is designed around Next.js's App Router and handles edge cases like streaming API responses out of the box.
+
+A live reference deployment is available at [https://hashpilot-taupe.vercel.app](https://hashpilot-taupe.vercel.app).
+
+## Deploy to Vercel
+
+<Steps>
+  <Step title="Push your code to GitHub">
+    Make sure your HashPilot fork or clone is pushed to a GitHub repository. Vercel deploys directly from your Git history.
+
+    ```bash
+    git add .
+    git commit -m "initial commit"
+    git push origin main
+    ```
+
+    <Warning>
+      Confirm that `.env.local` is in `.gitignore` and has not been committed. Your API key must not appear in the repository.
+    </Warning>
+  </Step>
+
+  <Step title="Import the repository in Vercel">
+    Go to [vercel.com/new](https://vercel.com/new), log in, and click **Import**. Select your HashPilot repository.
+
+    Vercel detects Next.js automatically. Leave the framework preset and build settings at their defaults:
+
+    | Setting | Value |
+    |---------|-------|
+    | Framework | Next.js |
+    | Build command | `npm run build` |
+    | Output directory | `.next` |
+    | Install command | `npm install` |
+  </Step>
+
+  <Step title="Add the environment variable">
+    Before clicking **Deploy**, expand the **Environment Variables** section and add:
+
+    - **Name**: `ANTHROPIC_API_KEY`
+    - **Value**: your Anthropic API key (`sk-ant-api03-...`)
+
+    Set the environment to **Production** at minimum. Add **Preview** as well if you want AI features in branch deployments.
+
+    <Tip>
+      You can also set environment variables after the initial deploy under **Project Settings → Environment Variables**, then trigger a redeploy.
+    </Tip>
+  </Step>
+
+  <Step title="Deploy">
+    Click **Deploy**. Vercel builds the project and assigns it a `.vercel.app` domain. You can add a custom domain under **Project Settings → Domains** at any time.
+
+    Once the build completes, all features — including AI chat, Oracle readings, and Daily Digest — are live.
+  </Step>
+</Steps>
+
+## What gets deployed
+
+<Columns cols={2}>
+  <Card title="No database required" icon="database" color="#22C55E">
+    HashPilot stores no user data. Live price data comes from DEX Screener and CoinGecko at request time. There is nothing to provision, migrate, or back up.
+  </Card>
+  <Card title="No build-time secrets" icon="lock" color="#3B82F6">
+    `ANTHROPIC_API_KEY` is only needed at runtime, not during the build. The build step completes successfully even if the variable is missing — AI endpoints simply return an error until it is set.
+  </Card>
+</Columns>
+
+## Other hosting options
+
+Vercel is recommended, but HashPilot runs on any platform that supports Next.js 14 App Router with Node.js 18+.
+
+<AccordionGroup>
+  <Accordion title="Netlify" icon="globe">
+    Netlify supports Next.js via its runtime adapter. Use the same environment variable name (`ANTHROPIC_API_KEY`) in **Site Settings → Environment Variables**. Note that streaming API responses (used by `/api/chat`) require Netlify's Edge Functions runtime — verify your plan supports it.
+  </Accordion>
+
+  <Accordion title="Railway" icon="train">
+    Railway runs Node.js services directly. Set `ANTHROPIC_API_KEY` as a Railway variable, then deploy with:
+
+    ```bash
+    npm run build
+    npm run start
+    ```
+
+    Railway injects variables into the process environment at runtime.
+  </Accordion>
+
+  <Accordion title="Self-hosted (Node.js server)" icon="server">
+    Build and run the app on any Linux server with Node.js 18+.
+
+    ```bash
+    npm run build
+    ANTHROPIC_API_KEY=sk-ant-api03-... npm run start
+    ```
+
+    Or export the variable in your shell profile before running `npm run start`. The server listens on port 3000 by default.
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Configure your API key" icon="key" href="/setup/api-keys">
+    Full instructions for obtaining and configuring the Anthropic key.
+  </Card>
+  <Card title="Explore the dashboard" icon="layout-dashboard" href="/dashboard/overview">
+    Tour the Tactical Dashboard and live data feeds once your deployment is running.
+  </Card>
+</Columns>

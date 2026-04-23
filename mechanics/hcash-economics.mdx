@@ -1,0 +1,117 @@
+---
+title: "hCASH token economics: supply, burns, and electricity"
+description: "hCASH total supply, burn mechanics, and the Normal/Elevated/Surge electricity rate system — the economic layer that determines your net mining returns."
+---
+
+hCASH is the native token of Club HashCash. It is earned entirely through gameplay — there is no pre-mine, no team allocation, and no investor distribution. Every hCASH in existence was minted as a block reward and claimed by an active miner. Understanding how supply, burns, and rate dynamics interact determines whether your mining operation runs at a profit or gets eroded by fees.
+
+## Supply snapshot
+
+As of the latest protocol transparency report:
+
+| Metric | Value |
+|---|---|
+| Total hCASH minted | 4,142,824.10 hCASH |
+| Total hCASH burned | 4,722,187.50 hCASH |
+| Net circulating supply | Negative (burned exceeds minted) |
+
+<Note>
+  Total hCASH burned (4,722,187.50) exceeds total hCASH ever minted (4,142,824.10). This is not a rounding error — it reflects hCASH that entered circulation via gameplay and was subsequently destroyed through in-game spending and fee mechanics. The protocol is currently deflationary.
+</Note>
+
+Burn activity outpacing minting means the overall hCASH supply is contracting even as new blocks continue emitting rewards. Every claim, every miner purchase, and every marketplace transaction that burns hCASH puts downward pressure on supply.
+
+## How hCASH is earned
+
+hCASH is distributed as block rewards on Avalanche. Each block emits a fixed amount, split proportionally across all active miners by hashrate share:
+
+```
+yourReward = 1.25 hCASH/block × (yourHashrate / networkHashrate)
+```
+
+At the current network hashrate of 241,850 TH/s, a player with 500 TH/s earns approximately **111.5 hCASH per day**. Halvings periodically reduce the per-block emission — see [Halvings](/mechanics/halvings) for the full schedule.
+
+## How hCASH is spent
+
+<AccordionGroup>
+  <Accordion title="Buying miners">
+    All miners in the in-game shop are priced in hCASH (or AVAX for select listings). Entry-tier rigs start at 100–750 hCASH, mid-tier rigs at 1,000–2,500 hCASH, and Pro/Elite hardware ranges from 3,500 to 25,000 hCASH. Purchasing burns or transfers hCASH out of your wallet.
+  </Accordion>
+  <Accordion title="Claiming rewards">
+    Claiming your accumulated mining rewards requires an on-chain transaction. The fee scales with the current electricity rate state. During Normal rates, fees are minimized. During Surge, fees are at their maximum and can consume a significant portion of a small claim.
+  </Accordion>
+  <Accordion title="Secondary market trading">
+    Miner NFTs can be listed and purchased on the secondary marketplace in hCASH or AVAX. Selling miners you no longer need returns hCASH (or AVAX) to your wallet; buying from other players routes hCASH through the marketplace.
+  </Accordion>
+  <Accordion title="Facility upgrades">
+    Upgrading your facility tier to unlock higher power capacity requires hCASH. This is a capital allocation decision: spending hCASH now to enable more miners, which earn more hCASH over time.
+  </Accordion>
+</AccordionGroup>
+
+## Electricity rate system
+
+Claim fees are dynamic, not fixed. Three rate states govern what you pay when you move rewards on-chain:
+
+<CardGroup cols={3}>
+  <Card title="Normal" icon="check-circle">
+    Minimum fees. The optimal window to claim. Accumulate rewards and claim in this state whenever possible.
+  </Card>
+  <Card title="Elevated" icon="alert-triangle">
+    Moderate fees. Acceptable for large accumulated balances where the fee is a small percentage of the claim.
+  </Card>
+  <Card title="Surge" icon="zap">
+    Maximum fees. Claiming during Surge significantly reduces net rewards. Hold unless you have a specific reason to claim immediately.
+  </Card>
+</CardGroup>
+
+<Warning>
+  Never claim during Surge if you can avoid it. The fee overhead during peak rate periods can erase hours or days of accumulated mining rewards, especially for players with smaller hashrate shares.
+</Warning>
+
+### Claim strategy in practice
+
+The right claim behavior depends on your balance size and the current rate:
+
+- **Small balance + Surge**: Always hold. The fee percentage is highest on small claims.
+- **Large balance + Normal**: Claim. Your accumulated rewards are substantial and fees are minimal.
+- **Large balance + Surge**: Judgment call. If a halving is imminent, it may be worth claiming now to lock in pre-halving earnings before the emission rate drops.
+
+Use the [Claim Advisor](/tools/claim-advisor) tool to get a real-time CLAIM / HOLD verdict based on live rate data.
+
+## Live price feeds
+
+HashPilot integrates two external price sources to give you USD context for your hCASH earnings:
+
+<CardGroup cols={2}>
+  <Card title="DEX Screener" icon="bar-chart-2" href="/tools/oracle">
+    Live hCASH/AVAX price pulled from DEX Screener. Used in the Oracle simulator to convert projected hCASH earnings into USD values.
+  </Card>
+  <Card title="CoinGecko" icon="globe">
+    Live AVAX/USD price from CoinGecko. Combined with the hCASH/AVAX rate to produce hCASH/USD conversions across all dashboard tools.
+  </Card>
+</CardGroup>
+
+These feeds update continuously and feed directly into the Oracle scenario matrix, the FOMO Machine historical analysis, and the ROI Calculator. All USD figures shown in HashPilot tools reflect live market prices — not hardcoded estimates.
+
+## Strategic implications of deflationary supply
+
+The fact that burned hCASH already exceeds total minted supply has compounding effects on the game economy:
+
+1. **Scarcity pressure**: A contracting supply, paired with consistent new player demand for hCASH (to buy miners and upgrades), applies upward price pressure over time.
+2. **Miner payback accelerates in bull markets**: If hCASH price rises while your miner's hCASH output is fixed, your USD-denominated earnings increase without any gameplay change.
+3. **Halvings amplify scarcity**: Each halving cuts new emission by 50%, further slowing the rate at which new hCASH enters supply.
+
+<Tip>
+  Modeling how halvings interact with price expectations is exactly what the Oracle simulator is designed for. Adjust the halvings slider and price delta to see how different scenarios affect your projected USD returns.
+</Tip>
+
+---
+
+<CardGroup cols={2}>
+  <Card title="Mining fundamentals" icon="pickaxe" href="/mechanics/mining-fundamentals">
+    Review the core earnings formula, network share dilution, and the facility system.
+  </Card>
+  <Card title="Halvings" icon="trending-down" href="/mechanics/halvings">
+    Learn how the emission schedule cuts block rewards every 4,200,000 blocks.
+  </Card>
+</CardGroup>

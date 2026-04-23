@@ -1,97 +1,81 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "HashPilot: AI Mining Intelligence for Club HashCash"
+description: "HashPilot is the AI mining terminal for Club HashCash on Avalanche. Get claim verdicts, scenario simulations, and miner strategy profiling in one tool."
 ---
 
-## Setting up
+HashPilot is a retro-futuristic mining intelligence platform built exclusively for the Club HashCash ecosystem on Avalanche. It combines real-time blockchain data with Claude AI to give miners a decisive edge — from knowing exactly when to claim rewards, to modeling future earnings across Bear, Base, and Bull scenarios, to discovering your unique mining archetype.
 
-Get your documentation site up and running in minutes.
-
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Connect your wallet and get your first WAIT/CLAIM verdict in under two minutes.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Claim Advisor" icon="bolt" href="/tools/claim-advisor">
+    Get an AI-verified verdict on whether to claim now or wait for better conditions.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Oracle Simulator" icon="crystal-ball" href="/tools/oracle">
+    Model your earnings across 9 scenarios: Bear/Base/Bull × 30/90/180 days.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Miner Archetypes" icon="shield-halved" href="/tools/miner-archetypes">
+    Discover your mining persona and get a tailored 3-move strategy playbook.
   </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## What HashPilot does
 
-Everything you need to create world-class documentation.
+HashPilot turns raw blockchain data into tactical intelligence. Instead of guessing when to claim or how to allocate your hashrate, you get data-driven verdicts backed by AI analysis and real on-chain metrics.
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
+<CardGroup cols={3}>
+  <Card title="Claim Advisor" icon="clock" href="/tools/claim-advisor">
+    WAIT vs. CLAIM verdict based on pending rewards vs. gas fee thresholds.
   </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
+  <Card title="Oracle" icon="chart-line" href="/tools/oracle">
+    Forward-looking scenario matrix across timeframes and market conditions.
   </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
+  <Card title="FOMO Machine" icon="triangle-exclamation" href="/tools/fomo-machine">
+    Counterfactual modeling — see exactly what suboptimal decisions have cost you.
   </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
+  <Card title="Miner Archetypes" icon="user-shield" href="/tools/miner-archetypes">
+    6-question classifier revealing your strategic mining personality.
   </Card>
-</Columns>
+  <Card title="Dashboard" icon="gauge" href="/dashboard/overview">
+    Live hCASH price, network hashrate, and claim cycle status at a glance.
+  </Card>
+  <Card title="AI Strategy Chat" icon="robot" href="/ai/strategy-chat">
+    Claude-powered consultant with full Club HashCash game mechanic knowledge.
+  </Card>
+</CardGroup>
 
-## Need inspiration?
+## Get started in three steps
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<Steps>
+  <Step title="Open the terminal">
+    Navigate to [hashpilot-taupe.vercel.app](https://hashpilot-taupe.vercel.app) — no account required. You can analyze any wallet address immediately.
+  </Step>
+  <Step title="Connect or paste your wallet">
+    Connect via RainbowKit for the full experience, or paste any Avalanche wallet address (`0x...`) directly into the input field. HashPilot is **read-only** — no transactions are ever initiated.
+  </Step>
+  <Step title="Get your verdict">
+    The [Claim Advisor](/tools/claim-advisor) will immediately analyze your pending hCASH rewards against current claim fees and deliver a clear **CLAIM NOW** or **WAIT** verdict with supporting data.
+  </Step>
+</Steps>
+
+## Explore the platform
+
+<CardGroup cols={2}>
+  <Card title="Game Mechanics" icon="book" href="/mechanics/mining-fundamentals">
+    Understand the Club HashCash protocol — earnings formula, halvings, and electricity rates.
+  </Card>
+  <Card title="Miner Catalog" icon="server" href="/mechanics/miner-catalog">
+    Browse all 32 miner NFTs with hashrate, power, efficiency, and payback period data.
+  </Card>
+  <Card title="Setup Guide" icon="gear" href="/setup/environment">
+    Run HashPilot locally with your own Anthropic API key for full AI feature access.
+  </Card>
+  <Card title="FOMO Machine" icon="fire" href="/tools/fomo-machine">
+    Calculate the true cost of starting late, skipping upgrades, or claiming at surge rates.
+  </Card>
+</CardGroup>
+
+<Note>
+  HashPilot is a read-only analytics tool. It never initiates transactions, requests private keys, or moves funds. All wallet connections are view-only.
+</Note>

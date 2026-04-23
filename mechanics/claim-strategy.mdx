@@ -1,0 +1,142 @@
+---
+title: "hCASH claim timing: the 2x threshold and rate windows"
+description: "Apply the 2× rule, avoid Surge windows, and batch claims to maximize net hCASH. Includes a decision tree and archetype-based cadence guidance."
+---
+
+Claiming your pending hCASH rewards is not free. Every claim triggers a fee proportional to current electricity rates, and making the wrong call — claiming too early, or during a Surge window — is one of the most consistent ways operators erode otherwise solid mining returns.
+
+A disciplined claim strategy can be the difference between net-positive operations and quietly donating a meaningful portion of your earnings back to the protocol.
+
+## The 2× rule
+
+The Claim Advisor uses a single, definitive threshold to render its verdict:
+
+```
+CLAIM NOW  →  pendingRewards ≥ claimFee × 2.0
+WAIT       →  pendingRewards <  claimFee × 2.0
+```
+
+The breakeven threshold — `claimFee × 2.0` — ensures that your pending rewards are large enough that the fee represents at most 50% of the claim value. Below this ratio, the fee drag is too steep relative to what you take home.
+
+<Note>
+The 2× multiplier is a conservative minimum, not a ceiling. Letting rewards accumulate further — to 3× or 4× the fee — improves your net claim efficiency on every transaction.
+</Note>
+
+---
+
+## Electricity rate windows
+
+Claim fees are not static. The protocol operates on three electricity rate states:
+
+<Steps>
+  <Step title="Normal">
+    Minimum fee rates. This is the ideal window for claiming. If your pending rewards meet the 2× threshold during Normal rates, claim immediately.
+  </Step>
+  <Step title="Elevated">
+    Fees are higher than Normal. The 2× rule still applies, but you should be closer to 3× coverage before pulling the trigger. If you are borderline, waiting for a Normal window is often the better call.
+  </Step>
+  <Step title="Surge">
+    Maximum fee rates. The Claim Advisor will almost always return WAIT during Surge. Unless your pending rewards are at an extreme multiple of the fee floor, claiming during Surge destroys value.
+  </Step>
+</Steps>
+
+<Warning>
+Claiming during a Surge window is the single most costly routine mistake HashCash operators make. The FOMO Machine's "Claim Master" scenario quantifies this directly: **each surge claim wastes approximately 13 hCASH** (modeled as a 13% fee differential on a 100 hCASH claim, versus the Normal rate). Four surge claims = 52 hCASH surrendered unnecessarily.
+</Warning>
+
+---
+
+## Gas optimization: let it accumulate
+
+The fee is charged per claim transaction, not as a percentage of rewards. This means larger claim batches are structurally more efficient than frequent small claims.
+
+Consider two operators with the same daily earnings of 15 hCASH and a claim fee of 8 hCASH:
+
+| Strategy | Claims per month | Gross earned | Total fees | Net hCASH |
+|---|---|---|---|---|
+| Claim every 2 days | ~15 | 450 | 120 | 330 |
+| Claim every 15 days | 2 | 450 | 16 | 434 |
+| Claim once per month | 1 | 450 | 8 | 442 |
+
+The less frequent claimer nets **112 more hCASH** per month — an additional 25% — from identical mining output. The math compounds significantly over time.
+
+<Tip>
+A useful mental model: every claim that doesn't meet the 2× threshold is a voluntary donation. The protocol doesn't penalize you for waiting — it rewards patience.
+</Tip>
+
+---
+
+## Common mistakes
+
+<Accordion title="Claiming too frequently">
+The most widespread error. Operators used to traditional crypto staking reflexively claim as soon as any balance appears. In HashCash, each sub-threshold claim chips away at your position. Check your claim history: if you have claimed more than once per week with sub-50 hCASH balances, this is almost certainly your biggest optimization opportunity.
+</Accordion>
+
+<Accordion title="Claiming during Surge">
+Surge windows are visible in the dashboard — do not ignore them. The fee spike during Surge is significant enough that even rewards that comfortably meet the 2× threshold under Normal rates may fall below it at Surge pricing. The Claim Advisor recalculates in real time and will flip its verdict accordingly. Trust the verdict.
+</Accordion>
+
+<Accordion title="Not monitoring the rate window">
+Setting a mental note to "claim later" and then forgetting the rate state is common. Use the Claim Advisor's alert function to get notified when your pending balance crosses the threshold *during a Normal rate window* — removing the need to manually monitor both variables simultaneously.
+</Accordion>
+
+<Accordion title="Ignoring network conditions before a large claim">
+If a halving is approaching, your daily earnings will drop. A large pending balance accumulated at pre-halving rates is more valuable to claim now than after the emission cut. The Oracle can help you model this scenario.
+</Accordion>
+
+---
+
+## Miner archetypes and claim frequency
+
+Different operators claim at different cadences depending on their risk tolerance and position size. Two archetypes from the HashPilot strategy database:
+
+<CardGroup cols={2}>
+  <Card title="The Efficiency Hawk" icon="zap">
+    Claims more frequently than the pure accumulation math would suggest optimal. The Hawk prioritizes minimizing the exposure of a large unrealized balance to fee spikes or emergency liquidity needs. Claims at 2.5–3× threshold, Normal windows only, on a predictable schedule.
+
+    **Trade-off:** Slightly lower net hCASH per claim, but more consistent realized position.
+  </Card>
+  <Card title="The Accumulator" icon="vault">
+    Claims as infrequently as possible — targeting 5–10× fee coverage before executing. Builds maximum position between claims and only acts during confirmed Normal windows. Maximizes net hCASH per transaction.
+
+    **Trade-off:** Larger unrealized balance exposed to the risk of an extended Surge period or personal liquidity pressure.
+  </Card>
+</CardGroup>
+
+Neither archetype is universally correct. Your optimal frequency depends on your daily earnings rate (higher earners can afford to be less patient), your facility tier (ELITE operators hit 2× faster), and your hCASH price outlook (if you expect price appreciation, accumulating before claiming has additional upside).
+
+---
+
+## The Claim Advisor tool
+
+The Claim Advisor automates the entire decision. Enter your wallet address and it reads your live pending rewards and estimated claim fee, then renders a real-time CLAIM NOW / WAIT verdict with the full calculation breakdown.
+
+It also surfaces:
+
+- Your current pending-to-fee ratio (target: ≥ 2.0×)
+- The breakeven threshold in hCASH
+- Your strategy mode (Aggressive or Conservative)
+- The last time you claimed
+
+<CardGroup cols={2}>
+  <Card title="Claim Advisor" href="/tools/claim-advisor" icon="shield-check">
+    Get a live CLAIM NOW / WAIT verdict for your wallet with full fee math included.
+  </Card>
+  <Card title="FOMO Machine" href="/tools/fomo-machine" icon="trending-up">
+    Run the Claim Master scenario to quantify exactly how much surge claims have cost your operation historically.
+  </Card>
+</CardGroup>
+
+---
+
+## Quick reference: the claiming decision tree
+
+```
+Is current rate window = SURGE?
+  └─ YES → WAIT. Do not claim.
+  └─ NO  → Is pendingRewards ≥ claimFee × 2.0?
+               └─ YES → CLAIM NOW.
+               └─ NO  → WAIT. Let rewards accumulate.
+```
+
+When in doubt, open the Claim Advisor. It runs this logic against your live balance and returns a verdict in seconds.

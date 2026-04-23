@@ -1,0 +1,169 @@
+---
+title: "Oracle: simulate hCASH earnings across 9 scenarios"
+description: "Simulate Bear, Base, and Bull outcomes over 30, 90, and 180-day horizons using adjustable sliders, then get a structured AI reading with verdict and best move."
+---
+
+The Oracle is HashPilot's scenario simulation engine. It takes your real mining parameters, lets you dial in market assumptions across four dimensions, and produces a 3×3 scenario matrix showing projected hCASH earnings and USD value across every combination of market condition and time horizon. When you are ready to go deeper, the **GET ORACLE READING** button sends the full matrix to an AI analyst that interprets the numbers and delivers a structured strategic verdict.
+
+## Four-Step Process
+
+<Steps>
+  <Step title="Enter base setup">
+    Provide the four inputs that anchor the simulation to your real operation. These are not slider estimates — they should reflect your actual current state.
+  </Step>
+  <Step title="Adjust Oracle sliders">
+    Use the four sliders to model the market and network conditions you want to simulate. The matrix updates live with every change.
+  </Step>
+  <Step title="Read the scenario matrix">
+    Interpret the 3×3 grid: rows represent Bear / Base / Bull market cases, columns represent 30 / 90 / 180-day time horizons. Each cell shows hCASH earned, USD value, and your projected network share percentage.
+  </Step>
+  <Step title="Get an AI Oracle reading">
+    Click **GET ORACLE READING** to send your slider configuration and matrix to the AI backend. The reading appears in a structured format below the matrix with a verdict, critical factor, recommended move, and risk alert.
+  </Step>
+</Steps>
+
+## Section 1: Base Setup
+
+These four fields define your operational baseline. All simulation math derives from these inputs.
+
+<CardGroup cols={2}>
+  <Card title="My Hashrate (TH/s)" icon="cpu">
+    Your total contributed hashrate in terahashes per second. This determines your share of block rewards relative to the network.
+  </Card>
+  <Card title="Network Hashrate (TH/s)" icon="globe">
+    The current total network hashrate. Combined with your hashrate, this produces your starting network share percentage.
+  </Card>
+  <Card title="hCASH Price (USD)" icon="dollar-sign">
+    The current hCASH price in USD. Used to convert projected hCASH earnings into dollar values across all matrix cells.
+  </Card>
+  <Card title="Facility Tier" icon="building">
+    Your current facility tier: STARTER, STANDARD, ADVANCED, or ELITE. Tier affects which upgrades are available in the FOMO Machine but is recorded as context in Oracle readings. See [Facility Tiers](/mechanics/facility-tiers) for tier specifications.
+  </Card>
+</CardGroup>
+
+## Section 2: Oracle Sliders
+
+The four sliders let you stress-test your operation against a range of market and network scenarios. Bear and Bull case multipliers are applied on top of your slider settings — so your slider values represent the *base case* starting point, which is then amplified or dampened per scenario.
+
+<AccordionGroup>
+  <Accordion title="Network Hashrate Change (-50% to +300%)">
+    Models the expected change in total network hashrate over the simulation period. A positive value means more miners are joining the network, diluting your share. A negative value means miners are leaving.
+
+    - **Pessimistic end (−50%):** Network contracts significantly — your share grows.
+    - **Neutral (0%):** Network stays flat; your share is constant.
+    - **Optimistic end (+300%):** Massive network growth; your share is compressed heavily.
+
+    In the Bear case, this slider's value is multiplied by **1.5** (more growth than expected). In the Bull case, it is multiplied by **0.5** (less growth than expected).
+  </Accordion>
+  <Accordion title="hCASH Price Delta (-80% to +500%)">
+    Models the percentage change in hCASH price over the simulation period relative to your base setup price.
+
+    - **Crash (−80%):** Price collapses — USD values plummet even if hCASH earnings hold steady.
+    - **Stable (0%):** Price is unchanged.
+    - **Bullish (+500%):** Price 6× — dramatically amplifies USD-denominated returns.
+
+    In the Bear case, this slider's value is multiplied by **0.5** (weaker price move). In the Bull case, it is multiplied by **2.0** (stronger price move).
+  </Accordion>
+  <Accordion title="New Miners Joining (0 to 500)">
+    Estimates how many new participant miners enter the network during the simulation period. Each new miner is assumed to contribute **50 TH/s** to the total network hashrate.
+
+    ```
+    futureNetHashrate = netHashrate × (1 + simNetGrowth/100) + (simNewPlayers × 50)
+    ```
+
+    In the Bear case, this count is scaled by the same **1.5× network multiplier**, representing an aggressive mining influx. In the Bull case, it is scaled by **0.5×**.
+  </Accordion>
+  <Accordion title="Halvings in Period (0, 1, 2, 3)">
+    The number of emission halvings that occur within the simulation window. This is a discrete selector (0, 1, 2, or 3) rather than a continuous slider.
+
+    Each halving reduces the block emission rate by 50%. The halving factor applied to all earnings projections is:
+
+    ```
+    emissionFactor = Math.pow(0.5, halvings)
+    ```
+
+    One halving cuts projected hCASH earnings in half. Two halvings cut them to 25% of base. Three halvings to 12.5%.
+  </Accordion>
+</AccordionGroup>
+
+## Section 3: The Scenario Matrix
+
+The 3×3 matrix is the core output of the Oracle. It is rebuilt on every slider change.
+
+### Bear / Base / Bull Case Multipliers
+
+| Case | Network Growth Multiplier | Price Delta Multiplier |
+|------|--------------------------|------------------------|
+| BEAR | 1.5× your slider value | 0.5× your slider value |
+| BASE | 1.0× (no adjustment) | 1.0× (no adjustment) |
+| BULL | 0.5× your slider value | 2.0× your slider value |
+
+Bear assumes worse network conditions (more hashrate dilution) and a weaker price. Bull assumes the network grows less aggressively while price outperforms your base case estimate.
+
+### Earnings Formula
+
+For each matrix cell, the simulation calculates:
+
+```
+futureShare     = myHashrate / futureNetHashrate     (as a decimal)
+baseDaily       = 1.25 × 43200 × futureShare
+emissionFactor  = Math.pow(0.5, halvings)
+totalHCash      = baseDaily × days × emissionFactor
+futurePrice     = basePrice × (1 + simPriceMove / 100)
+totalUsd        = totalHCash × futurePrice
+```
+
+The constant `1.25 × 43200` represents the base daily block reward rate at 100% network share. `43200` is the approximate number of blocks per day and `1.25` is the per-block reward coefficient.
+
+### Reading a Cell
+
+Each cell in the matrix shows three values:
+
+- **hCASH earned** — total hCASH projected for that case and timeline
+- **USD value** — hCASH earned × the scenario-adjusted future price
+- **Network share %** — your projected share of total network hashrate after all growth factors are applied
+
+<Warning>
+  The Oracle simulation uses deterministic math with fixed multipliers. It is a structured thinking tool, not a financial forecast. Real outcomes depend on variables — protocol changes, hardware failure, regulatory shifts — that no simulation can model. All output is labeled "Non-Financial Guidance."
+</Warning>
+
+## Getting an AI Oracle Reading
+
+After reviewing the matrix, click **GET ORACLE READING**. HashPilot sends your slider configuration and the full matrix to the AI backend (`/api/oracle`) and streams a structured reading back.
+
+The reading follows a consistent format:
+
+```
+VERDICT:         A one-line call on your overall position
+CRITICAL FACTOR: The single biggest variable driving the outcome
+BEST MOVE:       The recommended action given current parameters
+RISK ALERT:      The main downside risk to watch
+ORACLE CONFIDENCE: High / Medium / Low with a brief rationale
+```
+
+<Note>
+  The AI reading requires a valid Anthropic API key configured in your deployment environment. If the backend is unreachable, a fallback message is displayed explaining the connectivity issue. See [API Keys](/setup/api-keys) for setup instructions.
+</Note>
+
+## Exporting the Matrix
+
+Click **Export Scenario Matrix** below the grid to download a high-resolution PNG of the matrix panel (rendered at 2× pixel ratio). This is useful for sharing projections with a team or saving a snapshot of a specific parameter configuration.
+
+The exported file is named `hashpilot-oracle-{timestamp}.png`.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Mining Fundamentals" href="/mechanics/mining-fundamentals" icon="pickaxe">
+    Understand the block reward mechanics and hashrate share calculations that power the Oracle formula.
+  </Card>
+  <Card title="Halvings" href="/mechanics/halvings" icon="scissors">
+    A full explainer on the halving schedule, emission reduction mechanics, and strategic implications.
+  </Card>
+  <Card title="AI Oracle Readings" href="/ai/oracle-readings" icon="bot">
+    Learn how the AI reading is structured and how to interpret each section of the Oracle output.
+  </Card>
+  <Card title="Facility Tiers" href="/mechanics/facility-tiers" icon="building">
+    Tier specifications and how upgrading affects your effective hashrate and earnings ceiling.
+  </Card>
+</CardGroup>

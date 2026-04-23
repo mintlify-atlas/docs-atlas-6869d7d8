@@ -1,0 +1,96 @@
+{
+  "projectType": "saas",
+  "projectName": "HashPilot",
+  "projectDescription": "A retro-futuristic AI mining intelligence terminal for Club HashCash on Avalanche, providing real-time claim optimization, scenario simulation, and miner strategy profiling.",
+  "theme": "aspen",
+  "primaryColor": "#F5A623",
+  "lightColor": null,
+  "darkColor": "#050B18",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": ["introduction", "quickstart", "connecting-wallet"]
+          },
+          {
+            "group": "Core Tools",
+            "pages": [
+              "tools/claim-advisor",
+              "tools/oracle",
+              "tools/fomo-machine",
+              "tools/miner-archetypes"
+            ]
+          },
+          {
+            "group": "Dashboard & Analytics",
+            "pages": [
+              "dashboard/overview",
+              "dashboard/halving-tracker",
+              "dashboard/miner-compare",
+              "dashboard/roi-calculator"
+            ]
+          },
+          {
+            "group": "AI Strategy Chat",
+            "pages": [
+              "ai/strategy-chat",
+              "ai/oracle-readings"
+            ]
+          },
+          {
+            "group": "Setup & Configuration",
+            "pages": [
+              "setup/environment",
+              "setup/api-keys",
+              "setup/deployment"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Game Mechanics",
+        "groups": [
+          {
+            "group": "HashCash Protocol",
+            "pages": [
+              "mechanics/mining-fundamentals",
+              "mechanics/hcash-economics",
+              "mechanics/halvings"
+            ]
+          },
+          {
+            "group": "Miners & Facilities",
+            "pages": [
+              "mechanics/miner-catalog",
+              "mechanics/facility-tiers",
+              "mechanics/claim-strategy"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Claim Advisor — WAIT vs. CLAIM verdict based on pending rewards and gas fee thresholds",
+    "Oracle Scenario Simulation — 3x3 Bear/Base/Bull matrix across 30/90/180-day horizons",
+    "FOMO Machine — Counterfactual modeling showing opportunity cost of suboptimal decisions",
+    "Miner Archetypes — 6-question assessment classifying miners into strategic personas",
+    "AI Strategy Chat — Claude-powered mining consultant with full game mechanic context",
+    "Tactical Dashboard — Live hCASH price, network hashrate, and claim cycle status",
+    "Miner Catalog — 32 NFT miners with efficiency, payback, and hashrate-per-hCASH metrics",
+    "Wallet Integration — RainbowKit/Wagmi for Avalanche wallet connection (read-only)"
+  ],
+  "publicApiSurface": [
+    "POST /api/chat — Streaming AI strategy advice via Claude (SSE)",
+    "POST /api/oracle — Oracle scenario matrix reading via Claude",
+    "POST /api/fomo-story — AI-generated counterfactual mining narrative",
+    "POST /api/digest — AI daily intel digest",
+    "calculateArchetype(answers: number[]) => string — Scores quiz answers to archetype ID",
+    "calculateRewardsWithHalvings(dailyRate, days, halvingStep) => number",
+    "MINERS: Miner[] — Full catalog with computed efficiency, paybackDays, hashPerHCASH",
+    "ARCHETYPES — 6 miner personas: compounder, efficiency_hawk, accumulator, halving_sniper, liquidity_player, field_recruit"
+  ]
+}

@@ -1,0 +1,124 @@
+---
+title: "Tactical Dashboard: live Club HashCash command center"
+description: "Your real-time command center for Club HashCash — live network hashrate, hCASH per block, hashrate trends, protocol events, and daily AI briefings."
+---
+
+The Tactical Dashboard is the first screen you see after connecting to HashPilot. It aggregates live network data, your personal mining position, and AI-generated strategy signals into a single mission-control view. Every number on this page reflects current protocol state — no stale caches, no manual refreshes required.
+
+## Stat cards
+
+Four stat cards run across the top of the dashboard. Each updates in real time and reflects either network-wide data or your personal position depending on your wallet connection state.
+
+<CardGroup cols={2}>
+  <Card title="Network Hashrate" icon="signal">
+    Displays total hashing power across the Club HashCash network in GH/s. The current baseline is **241.85 GH/s**. A green trend indicator shows the 24-hour directional change. This figure sets the denominator for every earnings calculation across the platform.
+  </Card>
+  <Card title="Your Hashrate Share" icon="percent">
+    Shows your personal share of network hashrate as a percentage. In demo mode this reads **0.25%**. With a live wallet connected and a miner configured, the figure updates to match your actual node output. An unconnected wallet shows **0.00%** with a warning state.
+  </Card>
+  <Card title="hCASH Per Block" icon="cube">
+    The current block reward paid to all miners each Avalanche block. The value is **1.25 hCASH** — the post-halving emission rate halved down from the 2.5 hCASH genesis rate. A sub-label shows the block distance to the next halving event.
+  </Card>
+  <Card title="Claim Status" icon="bell">
+    An advisory signal that reflects current gas floor conditions and surge rate activity. In demo mode it reads **HOLD** when surge rates are active. On a live wallet it continuously scans gas to advise whether to claim rewards now or wait.
+  </Card>
+</CardGroup>
+
+<Note>
+  The **hCASH Per Block** card always shows the sub-label `NEXT HALVING: 2,973,540 BLOCKS`. At Avalanche's ~2-second block time that equates to roughly 69 days. See [Halving Tracker](/dashboard/halving-tracker) for a full breakdown.
+</Note>
+
+## Hashrate chart
+
+The left column of the dashboard's mid-section renders a 14-day area chart of network hashrate in TH/s. The chart uses an animated fill that fades from amber at the peak to transparent at the baseline, giving a clear visual sense of trend direction.
+
+Hover any data point to see the exact TH/s value for that day. The chart covers the 14-day rolling window ending at the current date, so you can identify whether the network is growing, compressing, or holding steady before you make acquisition or claiming decisions.
+
+## QuickSetup panel
+
+The right column beside the chart holds the **QuickSetup** panel. This is where you enter your miner configuration if you are not yet using a connected wallet. Input your hashrate and facility tier here to unlock personalized projections across the ROI Calculator and Halving Tracker personal impact tools.
+
+## Live Intel Feed
+
+Below the chart sits the **Live Intel Feed** — a three-card grid of timestamped protocol events. Each card is tagged by event type:
+
+| Tag | Color | What it signals |
+|---|---|---|
+| `[SUPPLY]` | Amber | Emission and burn data updates from the hCASH contract |
+| `[CONTRACT]` | Blue | Assembler contract transitions, cost parameter changes |
+| `[NETWORK]` | Green | Hashrate spikes, difficulty adjustments, protocol upgrades |
+
+Events are ordered most-recent first and include a UTC timestamp. Use these signals to understand what has happened on-chain in the past 24–48 hours before making claim or upgrade decisions.
+
+<Tip>
+  A `[CONTRACT]` event noting a `rigassembler.v2 transition` means assembler costs have been recalculated for the current epoch. Check the [Claim Advisor](/tools/claim-advisor) before claiming if you see this event.
+</Tip>
+
+## Daily AI Digest
+
+The Daily Intel Brief appears at the very top of the dashboard, above the stat cards. It is generated once per day by the HashPilot AI and cached in your browser for the remainder of that day. The digest is structured as a set of labeled intelligence lines:
+
+```
+HEADLINE: <summary of the day's most significant on-chain movement>
+NETWORK INTEL: <hashrate and difficulty context>
+STRATEGY MOVE: <recommended action for the session>
+CLAIM SIGNAL: <OPTIMAL / HOLD / CAUTION>
+OUTLOOK: <BULLISH / NEUTRAL / BEARISH>
+```
+
+Click the refresh icon in the digest header to force a fresh generation at any point during the day. If the AI oracle connection is unavailable, the component falls back to a local emergency broadcast that signals neutral conditions and advises holding your current configuration.
+
+<Warning>
+  The **OFFLINE INTEL FEED** fallback state (shown with a shield icon) means HashPilot could not reach the AI digest endpoint. Protocol data on the rest of the dashboard remains live — only the narrative summary is affected.
+</Warning>
+
+## Data sources
+
+HashPilot pulls price data from two external APIs. Both are fetched automatically on page load with no configuration required.
+
+<AccordionGroup>
+  <Accordion title="hCASH price — DEX Screener">
+    The hCASH/USD spot price is fetched from DEX Screener using the token's on-chain pair address. This powers the USD-denominated earnings estimates in the ROI Calculator and Halving Tracker, and the live price badge on the hCASH price input fields.
+  </Accordion>
+  <Accordion title="AVAX price — CoinGecko">
+    The AVAX/USD rate is sourced from the CoinGecko public API. It is used when displaying miner prices denominated in AVAX, and for fee calculations that reference gas cost in native token terms.
+  </Accordion>
+</AccordionGroup>
+
+## Demo mode vs. connected wallet
+
+HashPilot operates in one of two states depending on your wallet connection.
+
+<Tabs>
+  <Tab title="Demo mode">
+    Demo mode is active when you connect the designated demo wallet address. It pre-populates:
+
+    - **Your Hashrate Share**: 0.25%
+    - **Claim Status**: HOLD (surge rates active)
+    - **Node label**: "Demo Node Active"
+
+    All dashboard visualizations are fully functional in demo mode. Use it to explore the interface before committing a live wallet.
+  </Tab>
+  <Tab title="Connected wallet">
+    When you connect a non-demo wallet, HashPilot reads your on-chain miner configuration and replaces demo figures with your actual hashrate share. The **Claim Status** card begins scanning live gas conditions, and the **Your Hashrate Share** card reflects your real network position.
+
+    If your node is still syncing after connection, the sub-label shows your truncated address followed by "Syncing" until the handshake completes.
+  </Tab>
+</Tabs>
+
+## Related tools
+
+<CardGroup cols={2}>
+  <Card title="Halving Tracker" icon="clock" href="/dashboard/halving-tracker">
+    See the live countdown to the next hCASH emission cut and model the impact on your daily earnings.
+  </Card>
+  <Card title="ROI Calculator" icon="calculator" href="/dashboard/roi-calculator">
+    Simulate daily, weekly, and monthly earnings based on your hashrate and current network conditions.
+  </Card>
+  <Card title="Miner Comparison" icon="chart-bar" href="/dashboard/miner-compare">
+    Compare all 32 miners by hashrate, efficiency, and payback period to find the right hardware for your budget.
+  </Card>
+  <Card title="Claim Advisor" icon="shield" href="/tools/claim-advisor">
+    Get an AI signal on whether current gas and rate conditions make this a good moment to claim your rewards.
+  </Card>
+</CardGroup>

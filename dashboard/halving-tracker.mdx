@@ -1,0 +1,124 @@
+---
+title: "Halving Tracker: plan for the next hCASH reward cut"
+description: "Live countdown to the next hCASH block reward halving, a personal earnings impact calculator, and three pre-halving strategies to protect your position."
+---
+
+Halvings are scheduled emission reductions built into the Club HashCash protocol. Every 4,200,000 blocks, the hCASH reward paid per Avalanche block drops by 50%. The Halving Tracker gives you a live countdown, a personal impact calculator, and a historical timeline so you can plan your mining operation around these predictable events rather than being caught off-guard by them.
+
+## How halvings work in Club HashCash
+
+The Club HashCash protocol started at a genesis reward of 5.0 hCASH per block. Each halving cuts that rate in half:
+
+| Epoch | Block Reward | Status |
+|---|---|---|
+| Genesis | 5.0 hCASH/block | Past |
+| Halving 1 — Jan 12, 2026 | 2.5 hCASH/block | Past |
+| Halving 2 — May 17, 2026 | 1.25 hCASH/block | **Current** |
+| Halving 3 — Aug 22, 2026 | 0.625 hCASH/block | Upcoming |
+
+Avalanche produces approximately **43,200 blocks per day** at its ~2-second block time. At that rate, 4,200,000 blocks spans roughly 97 days between halvings.
+
+<Note>
+  The current block reward is **1.25 hCASH**. After the next halving it will drop to **0.625 hCASH**. If you take no action, your daily earnings will be cut in half on that date.
+</Note>
+
+## Countdown clock
+
+The top of the Halving Tracker page shows a full-screen countdown clock ticking down in days, hours, minutes, and seconds. Two badges beneath the clock display:
+
+- **BLOCKS UNTIL**: the live block count remaining, decrementing every 2 seconds in sync with Avalanche's block time. Currently at **2,973,540 blocks**.
+- **Reward transition**: the before/after emission rate — `1.25 → 0.625 hCASH`.
+
+<Warning>
+  The countdown timer and block counter are simulated at the client layer to reflect the expected block cadence. For authoritative on-chain block height, verify against an Avalanche explorer.
+</Warning>
+
+## Tokenomics snapshot
+
+Below the countdown, two status panels show the current state of hCASH supply:
+
+| Metric | Value |
+|---|---|
+| Total hCASH in circulation | 4,142,824.10 hCASH |
+| Total hCASH burned | 4,722,187.50 hCASH |
+
+The burn figure exceeding current supply is a function of the deflationary mechanics built into the rigassembler contracts — miners must spend hCASH to deploy and upgrade rigs, which removes tokens from circulation.
+
+## Personal impact calculator
+
+The personal impact section lets you model exactly how much your daily earnings will change after the halving based on your own setup.
+
+<Steps>
+  <Step title="Enter your hashrate">
+    Input your total hashrate in TH/s. This defaults to 500 TH/s. If you have multiple miners, sum their hashrates from the [Miner Catalog](/mechanics/miner-catalog).
+  </Step>
+  <Step title="Set your network share">
+    Enter your percentage share of total network hashrate. The default is 5.9%. You can read your current share from the **Your Hashrate Share** stat card on the [Dashboard](/dashboard/overview).
+  </Step>
+  <Step title="Confirm the hCASH price">
+    The price field auto-populates with the live hCASH/USD rate from DEX Screener (shown with a **LIVE** badge when the feed is active). You can override this with a custom price to model different market conditions.
+  </Step>
+  <Step title="Read the before/after output">
+    The calculator shows two panels side by side. The **BEFORE** panel shows your current daily hCASH earnings and their USD equivalent. The **AFTER** panel shows what those figures become once the reward drops to 0.625 hCASH/block.
+  </Step>
+</Steps>
+
+The formula used for both panels is:
+
+```
+dailyEarnings = blockReward × (networkShare / 100) × 43,200
+```
+
+Where `blockReward` is `1.25` before the halving and `0.625` after.
+
+## 6-month earnings projection
+
+The bottom section of the page renders a cumulative 6-month line chart. Two series are plotted:
+
+- **Without Halving** (blue line): cumulative earnings if the current 1.25 hCASH/block rate held for the full 6-month period.
+- **With Halving** (amber line): cumulative earnings with the halving taking effect after month 1 of the projection window.
+
+The divergence between the two lines quantifies the opportunity cost of not acting before the halving. The wider the gap grows over 6 months, the stronger the case for pre-halving preparation.
+
+## Pre-halving strategies
+
+The Halving Tracker surfaces three recommended strategic postures. The right choice depends on your current hashrate, budget, and facility tier.
+
+<AccordionGroup>
+  <Accordion title="Compound now — buy more miners">
+    Purchase additional miners before the halving to increase your raw hashrate. If you double your miners before the reward drops, your post-halving earnings can hold near current levels. Use the [ROI Calculator](/dashboard/roi-calculator) to model how many additional miners offset the emission cut within your budget.
+
+    Best for: operators who have available hCASH and want to maintain absolute daily earnings.
+  </Accordion>
+  <Accordion title="Accumulate — stockpile hCASH">
+    Hold and accumulate hCASH now while emissions are still at 1.25/block. After the halving, new supply growth slows, which historically creates upward price pressure on the token. Accumulating before the cut means you benefit from both the higher emission rate today and potential price appreciation afterward.
+
+    Best for: operators who believe in hCASH's long-term value and want to maximize holdings before supply tightens.
+  </Accordion>
+  <Accordion title="Upgrade — advance your facility tier">
+    Higher facility tiers unlock capacity for more miners and may reduce effective claim fees. Upgrading infrastructure before the halving means you enter the lower-emission epoch with maximum miner slots and minimal fee drag on each claim.
+
+    Best for: operators already running near capacity who need more room to scale hashrate to compensate for the reward cut. See [Facility Tiers](/mechanics/facility-tiers) for slot counts and upgrade costs.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  The three strategies are not mutually exclusive. Many operators run a combination: accumulate hCASH now, use a portion to buy additional miners before the halving date, and upgrade their facility tier if they are within one slot of capacity.
+</Tip>
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Mining Fundamentals" icon="pickaxe" href="/mechanics/mining-fundamentals">
+    Understand how block rewards, hashrate share, and network difficulty interact in Club HashCash.
+  </Card>
+  <Card title="hCASH Economics" icon="coins" href="/mechanics/hcash-economics">
+    Deep dive into hCASH tokenomics, burn mechanics, and supply schedule.
+  </Card>
+  <Card title="ROI Calculator" icon="calculator" href="/dashboard/roi-calculator">
+    Simulate the exact earnings impact of adding miners or changing your network share before the halving.
+  </Card>
+  <Card title="Miner Catalog" icon="server" href="/mechanics/miner-catalog">
+    Browse all 32 miners with hashrate, power draw, and pricing to plan your pre-halving purchases.
+  </Card>
+</CardGroup>

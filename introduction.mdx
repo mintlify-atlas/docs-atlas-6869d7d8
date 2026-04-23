@@ -1,0 +1,67 @@
+---
+title: "HashPilot: AI mining intelligence for Club HashCash"
+description: "HashPilot is the AI mining intelligence terminal for Club HashCash on Avalanche — claim verdicts, scenario modeling, and miner strategy profiling."
+---
+
+HashPilot is a retro-futuristic mining intelligence terminal built exclusively for the Club HashCash ecosystem on Avalanche. It reads your wallet's on-chain state, cross-references live hCASH and AVAX prices, and delivers tactical AI verdicts that tell you exactly when to claim rewards, how future market conditions will affect your earnings, and what kind of miner you are. Every analysis is read-only — HashPilot never initiates a transaction, requests a signature, or moves a single token.
+
+<Note>
+  HashPilot is a read-only analytics tool. It never initiates transactions, requests private keys, or moves funds. Wallet connections are view-only and require no permissions beyond address visibility.
+</Note>
+
+## What HashPilot does
+
+The Club HashCash protocol generates hCASH rewards continuously, but claiming at the wrong moment burns gas unnecessarily and erodes your net return. HashPilot eliminates that guesswork. By combining real-time blockchain data with Claude AI, it transforms raw numbers — pending rewards, current claim fees, DEX price feeds — into a single, actionable verdict.
+
+Beyond the core claim decision, HashPilot gives you the deeper strategic picture: forward-looking earnings models, counterfactual cost analysis, and a personality-driven playbook tuned to your specific risk tolerance.
+
+## Core tools
+
+<CardGroup cols={2}>
+  <Card title="Claim Advisor" icon="bolt" href="/tools/claim-advisor">
+    The flagship tool. Analyzes your pending hCASH rewards against the current claim fee and delivers a clear **CLAIM NOW** or **WAIT** verdict, with AI reasoning and a breakeven threshold calculation.
+  </Card>
+  <Card title="Oracle" icon="chart-line" href="/tools/oracle">
+    A forward-looking scenario simulator. Model your projected earnings across 9 combinations of market conditions (Bear, Base, Bull) and time horizons (30, 90, 180 days).
+  </Card>
+  <Card title="FOMO Machine" icon="triangle-exclamation" href="/tools/fomo-machine">
+    Counterfactual modeling that quantifies the cost of hesitation. See exactly how much hCASH you left on the table by starting late, staying under-optimized, or claiming at peak gas.
+  </Card>
+  <Card title="Miner Archetypes" icon="user-shield" href="/tools/miner-archetypes">
+    A 6-question interactive assessment that classifies your mining persona — The Compounder, The Efficiency Hawk, The Accumulator, and more — then generates a tailored 3-move strategy playbook.
+  </Card>
+</CardGroup>
+
+## The Club HashCash ecosystem
+
+Club HashCash is an NFT mining protocol on Avalanche where holders earn hCASH rewards proportional to their miners' hashrate. Each miner NFT has distinct characteristics — hashrate output, power draw, facility tier requirements — that determine its earnings profile. Timing your claims correctly is critical: gas fees on Avalanche fluctuate, and claiming too early (before rewards exceed the fee threshold) results in a net loss.
+
+HashPilot was built specifically for this ecosystem. It understands the Club HashCash earnings formula, halving schedule, and miner catalog, which means its verdicts are calibrated to the actual mechanics of the protocol rather than generic DeFi assumptions.
+
+## The read-only guarantee
+
+HashPilot connects to your wallet solely to read your address. It then uses that address to query on-chain data through public RPC endpoints. At no point does it:
+
+- Request a transaction signature
+- Access private keys or seed phrases
+- Submit any on-chain transaction
+- Request token approvals or permissions
+
+You can verify this yourself: the RainbowKit connection dialog will never show a "Sign" or "Confirm transaction" prompt when using HashPilot. If you prefer not to connect a wallet at all, you can paste any Avalanche wallet address directly into the input field, or use the built-in demo wallet to explore the full interface without connecting anything.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get your first CLAIM/WAIT verdict in under two minutes — with or without a wallet.
+  </Card>
+  <Card title="Connect your wallet" icon="wallet" href="/connecting-wallet">
+    Supported wallets, the Avalanche network requirement, and the two connection modes explained.
+  </Card>
+  <Card title="Claim Advisor deep dive" icon="magnifying-glass" href="/tools/claim-advisor">
+    How the verdict logic works, what the breakeven threshold means, and how to read the technical parameters panel.
+  </Card>
+  <Card title="Mining fundamentals" icon="book" href="/mechanics/mining-fundamentals">
+    The Club HashCash earnings formula, halving schedule, and protocol mechanics that underpin every HashPilot calculation.
+  </Card>
+</CardGroup>

@@ -1,0 +1,238 @@
+---
+title: "Miner Archetypes: find and optimize your mining style"
+description: "Answer 6 questions to identify your mining archetype from six personas, then get a 3-move strategy playbook and an AI-generated 3-month roadmap."
+---
+
+Miner Archetypes is HashPilot's identity classification system. It analyzes your decision-making patterns across six behavioral dimensions — claim timing, hCASH usage, miner selection, halving response, primary goal, and network hashrate reaction — and maps them to one of six strategic archetypes. The result is not a personality type. It is an operational profile: a precise characterization of how you mine, what you do well, where you are exposed, and what your next three moves should be.
+
+## The Assessment
+
+The quiz consists of six questions, each with four answer options. There are no trick questions and no right answers — the options map directly to behavioral patterns associated with specific archetypes.
+
+Progress is shown as a step counter (`SCAN 1/6` through `SCAN 6/6`). Questions animate in from the right as you advance. You cannot go back.
+
+<AccordionGroup>
+  <Accordion title="Q1 — When do you claim your rewards?">
+    | Option | Archetype Signal |
+    |--------|-----------------|
+    | As soon as I see a positive balance | Efficiency Hawk (+2), Liquidity Player (+1) |
+    | Only during Normal electricity rates | Accumulator (+2), Efficiency Hawk (+1) |
+    | Rarely — I let it build up for weeks | Compounder (+2), Accumulator (+1) |
+    | I don't have a pattern yet | Field Recruit (+2) |
+  </Accordion>
+  <Accordion title="Q2 — What do you do with claimed hCASH?">
+    | Option | Archetype Signal |
+    |--------|-----------------|
+    | Immediately buy more miners | Compounder (+3), Halving Sniper (+1) |
+    | Hold it — waiting for the right price | Accumulator (+3), Liquidity Player (+1) |
+    | Mix of both depending on conditions | Efficiency Hawk (+2), Liquidity Player (+1) |
+    | I haven't figured that out yet | Field Recruit (+2) |
+  </Accordion>
+  <Accordion title="Q3 — How do you choose miners?">
+    | Option | Archetype Signal |
+    |--------|-----------------|
+    | Best hashrate for my budget, period | Compounder (+2), Halving Sniper (+2) |
+    | Most efficient (lowest power per TH) | Efficiency Hawk (+3) |
+    | Whatever's cheap on the market right now | Liquidity Player (+3) |
+    | I just buy what I can afford | Field Recruit (+2) |
+  </Accordion>
+  <Accordion title="Q4 — How do you feel about halvings?">
+    | Option | Archetype Signal |
+    |--------|-----------------|
+    | I specifically plan my moves around them | Halving Sniper (+4) |
+    | I don't think about them much | Field Recruit (+2) |
+    | They're a threat — I prepare by stacking before | Accumulator (+2), Compounder (+1) |
+    | Still learning what halvings actually mean | Field Recruit (+3) |
+  </Accordion>
+  <Accordion title="Q5 — What's your primary goal in HashCash?">
+    | Option | Archetype Signal |
+    |--------|-----------------|
+    | Maximum long-term hCASH accumulation | Compounder (+3), Accumulator (+1) |
+    | Efficient daily earnings with minimal waste | Efficiency Hawk (+3) |
+    | Profit from both mining AND miner trading | Liquidity Player (+3), Halving Sniper (+1) |
+    | Still exploring — no clear goal yet | Field Recruit (+3) |
+  </Accordion>
+  <Accordion title="Q6 — How do you react when network hashrate jumps?">
+    | Option | Archetype Signal |
+    |--------|-----------------|
+    | Buy more miners immediately — compete harder | Compounder (+2), Halving Sniper (+1) |
+    | Optimize current setup to maintain efficiency | Efficiency Hawk (+2) |
+    | Watch and wait — might be a buying opportunity | Liquidity Player (+2), Accumulator (+1) |
+    | Feel anxious — not sure what to do | Field Recruit (+2) |
+  </Accordion>
+</AccordionGroup>
+
+### How Scoring Works
+
+Each answer contributes weighted points to one or more archetypes. After all six answers are collected, the system (`calculateArchetype`) sums the weights and returns the archetype with the highest total score. In the event of a tie, the first-encountered maximum wins.
+
+After you answer the final question, a 4.5-second scanning animation plays — a horizontal amber line sweeps the screen three times while status messages appear (*ANALYZING CLAIM PATTERNS… CROSS-REFERENCING STRATEGY MATRIX… CLASSIFICATION CONFIRMED*) — before the reveal screen fades in.
+
+## The Six Archetypes
+
+<CardGroup cols={2}>
+  <Card title="⚡ The Compounder" icon="bolt">
+    **Color:** #39FF14 (neon green)
+
+    **Tagline:** "Reinvest everything. Dominate over time."
+
+    **Description:** Plays the long game. Every hCASH earned goes back into hashrate. Price today is irrelevant — the goal is to build a mining empire block by block.
+
+    **Strengths:** Network dilution resistance · Compound growth advantage · Halving-resistant strategy
+
+    **Vulnerability:** Illiquid if price drops suddenly. No exit buffer.
+
+    **3-Move Playbook:**
+    1. Reinvest 90%+ of hCASH earnings into new miners
+    2. Upgrade facility tier before next halving
+    3. Target miners with best hashrate per hCASH cost
+  </Card>
+  <Card title="🎯 The Efficiency Hawk" icon="target">
+    **Color:** #00D4FF (electric cyan)
+
+    **Tagline:** "Every watt counts. Precision over power."
+
+    **Description:** Obsesses over hashrate-per-watt ratios. Would rather run 6 perfectly optimized USB Nanos than 2 power-hungry Titans. Facility never exceeds 90% power capacity.
+
+    **Strengths:** Low operational cost · Surge-resistant (low claim fees) · Highly predictable earnings
+
+    **Vulnerability:** Slower absolute hashrate growth. Cannot compete in hash wars.
+
+    **3-Move Playbook:**
+    1. Never fill facility power capacity above 85%
+    2. Always choose efficiency rating over raw hashrate
+    3. Claim more frequently to avoid large fee exposure
+  </Card>
+  <Card title="🏦 The Accumulator" icon="piggy-bank">
+    **Color:** #F5A623 (amber)
+
+    **Tagline:** "Stack hCASH. Wait for the moment."
+
+    **Description:** Not in this for daily income. Building a position. hCASH stays in the wallet until the price is right. Thinks in cycles, not blocks.
+
+    **Strengths:** Positioned for price appreciation · Patient strategy · Low fee exposure (infrequent claims)
+
+    **Vulnerability:** Vulnerable to emission drops post-halving.
+
+    **3-Move Playbook:**
+    1. Claim only during Normal rate windows
+    2. Hold hCASH rather than reinvesting immediately
+    3. Monitor hCASH/AVAX LP for exit opportunities
+  </Card>
+  <Card title="⏳ The Halving Sniper" icon="clock">
+    **Color:** #FF6B35 (orange)
+
+    **Tagline:** "Time the halvings. Extract maximum value."
+
+    **Description:** Entire strategy is built around the halving schedule. Bulk-buys before halvings, claims aggressively after, repositions when the dust settles. The calendar is the weapon.
+
+    **Strengths:** Pre-halving accumulation advantage · Emission timing mastery · Maximum extraction windows
+
+    **Vulnerability:** High variance. Wrong timing = significant losses.
+
+    **3-Move Playbook:**
+    1. Bulk buy miners 2–3 weeks before each halving
+    2. Claim all rewards within 48h post-halving
+    3. Sell miners at peak post-halving hashrate
+  </Card>
+  <Card title="🌊 The Liquidity Player" icon="waves">
+    **Color:** #9B59B6 (purple)
+
+    **Tagline:** "Miners are assets. Buy low, mine, flip high."
+
+    **Description:** Treats miner NFTs like a trading portfolio. On the secondary market constantly — buying undervalued miners when others panic, selling into strength, always maintaining optionality.
+
+    **Strengths:** Can profit in any market condition · Not dependent on emissions · Secondary market expertise
+
+    **Vulnerability:** Complex strategy. High cognitive load. Easy to overtrade.
+
+    **3-Move Playbook:**
+    1. Track miner floor prices on secondary market daily
+    2. Buy miners at less than 80% of expected earnings payback
+    3. Sell when miner price exceeds 120% payback period
+  </Card>
+  <Card title="🔰 The Field Recruit" icon="shield">
+    **Color:** #7B8FA6 (steel blue)
+
+    **Tagline:** "Learning the ropes. Building the foundation."
+
+    **Description:** Newer to the game, still mapping the terrain. But present, building, and learning something every block. Every expert was once a recruit.
+
+    **Strengths:** No bad habits yet · Low sunk cost · Full optionality
+
+    **Vulnerability:** Susceptible to suboptimal setups. Still learning claim timing.
+
+    **3-Move Playbook:**
+    1. Start with USB/entry miners to learn mechanics
+    2. Never claim during Surge rate
+    3. Track earnings daily for 2 weeks before upgrading
+  </Card>
+</CardGroup>
+
+## The Profile Page
+
+After the reveal screen (which shows your archetype name, symbol, tagline, and a button to proceed), the full profile page opens with four sections.
+
+### Core Identity
+
+A prose paragraph — the archetype's `description` field — provides the full behavioral characterization of your mining style in plain language.
+
+### Strengths and Vulnerability
+
+A two-column layout shows:
+- **Strengths** as a bullet list with green indicators
+- **Vulnerability** as a highlighted warning block in red, naming the single biggest strategic risk your archetype carries
+
+### 3-Move Playbook
+
+A numbered three-column panel labeled **YOUR 3-MOVE PLAYBOOK** displays your archetype's three prioritized action commands. These are sequenced — move 1 is the most immediate priority.
+
+### Archetype Registry
+
+At the bottom of the profile page, a grid shows all six archetypes. Your result is highlighted with an amber ring and a **MY IDENTITY** badge. The other five are rendered with a blur overlay, visible but clearly secondary.
+
+## AI Strategy Roadmap
+
+Below the 3-Move Playbook, click **GET AI STRATEGY ROADMAP** to request a personalized 3-month mining strategy from the HashPilot AI backend (`/api/chat`).
+
+The AI receives your archetype name, tagline, and vulnerability. It returns a specific, actionable roadmap written from the perspective of a high-level mining consultant — encouraging about your strengths, honest about your exposure, and concrete in its month-by-month guidance.
+
+The response streams in and is displayed in a blue-bordered terminal panel as it arrives, so you see the advice build in real time.
+
+<Note>
+  The AI Strategy Roadmap requires a configured Anthropic API key. See [API Keys](/setup/api-keys) for setup details. If the backend is unreachable, an error message is displayed in the output panel.
+</Note>
+
+## The Exportable Badge Card
+
+Every archetype comes with a shareable identity badge. The badge card is rendered directly in the browser at 4:5 aspect ratio and can be exported as a high-resolution PNG.
+
+The badge includes:
+- Your archetype symbol (animated with a subtle pulse)
+- Your archetype name in the archetype's accent color with a matching glow shadow
+- Your tagline in italic monospace
+- Up to three strength tags as small bordered labels
+- A "HASHPILOT — MINER PROFILE" header and "IDENTITY VERIFIED // GEN\_LOG\_01" footer
+
+Download by clicking **Download Badge PNG** beneath the card. The file is saved as `archetype-{archetypeId}.png` at 2× pixel ratio.
+
+You can also share directly to X (Twitter) via the **SHARE** button, which pre-populates a tweet with your archetype name, symbol, tagline, and a link to HashPilot.
+
+Use **RETAKE** to restart the assessment from the beginning.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Mining Fundamentals" href="/mechanics/mining-fundamentals" icon="pickaxe">
+    The core mechanics that underpin every archetype's strategy — block rewards, hashrate share, and emission rates.
+  </Card>
+  <Card title="Halvings" href="/mechanics/halvings" icon="scissors">
+    Essential reading for Halving Snipers and Accumulators — the full halving schedule and strategic implications.
+  </Card>
+  <Card title="Miner Catalog" href="/mechanics/miner-catalog" icon="server">
+    Browse all available miners — critical for Efficiency Hawks and Liquidity Players evaluating hardware options.
+  </Card>
+  <Card title="AI Strategy Chat" href="/ai/strategy-chat" icon="bot">
+    Open-ended strategic conversation with the HashPilot AI — extend your archetype roadmap with custom questions.
+  </Card>
+</CardGroup>

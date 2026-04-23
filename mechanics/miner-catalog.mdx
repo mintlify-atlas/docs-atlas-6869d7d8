@@ -1,0 +1,237 @@
+---
+title: "Club HashCash miner catalog: all 32 NFTs with stats"
+description: "Every Club HashCash miner NFT by tier — Entry, Mid, Pro, and Elite — with hashrate, power, efficiency, payback days, price, and purchase availability."
+---
+
+The HashCash ecosystem runs on 32 distinct miner NFTs, each with a fixed hashrate, power draw, and supply cap. Your earnings are directly proportional to your share of the total network hashrate, so understanding which miners deliver the most hCASH per watt — and per hCASH spent — is the foundation of any serious mining strategy.
+
+## How efficiency is calculated
+
+Every miner in the system has two performance metrics derived from its raw stats:
+
+- **Efficiency (TH/W)** — `hashrate ÷ power`. Higher is better. A miner with 1000 TH/s drawing only 1 W has an efficiency of 1000 TH/W; one with 200 TH/s drawing 1000 W scores only 0.2 TH/W.
+- **Daily earnings (hCASH)** — `1.25 × (hashrate ÷ 241,850) × 43,200`. This is the baseline at current network hashrate and post-halving emission rate of 1.25 hCASH per block.
+- **Payback (days)** — `priceHCASH ÷ dailyEarnings`. How many days of solo mining to break even on purchase price.
+
+Efficiency matters most for facility planning: your facility has a hard power ceiling, and filling it with low-efficiency miners caps your total hashrate. High-efficiency miners let you extract more TH/s from the same power budget.
+
+<Note>
+All earnings projections assume a network hashrate of 241,850 TH/s and 1.25 hCASH per block. As more players join and network hashrate grows, your share — and your daily yield — will decrease proportionally.
+</Note>
+
+---
+
+## Entry tier
+
+Entry miners are the on-ramp for new operators. Supply is generally higher, prices are accessible, and power requirements are modest. The tradeoff is lower raw hashrate.
+
+<CardGroup cols={2}>
+  <Card title="CPU Miner v2.0" icon="microchip">
+    **30 TH/s · 100 W · 100 hCASH · 2,000 supply**
+
+    The best value entry point in the catalog. At 100 hCASH and 0.30 TH/W efficiency, payback is approximately 15 days. The highest supply of any miner makes it the most liquid on the secondary market.
+  </Card>
+  <Card title="Home Brew CPU Miner" icon="server">
+    **10 TH/s · 100 W · 300 hCASH · 1,885 supply**
+
+    The original entry miner. Lower hashrate and higher price than the v2.0 make it a weaker buy today, but its large supply means secondary prices are typically low.
+  </Card>
+  <Card title="Plasma XL" icon="bolt">
+    **45 TH/s · 200 W · 1,000 hCASH · 30 supply**
+
+    Strongest purchasable hashrate in the Entry tier. Limited supply (30) means it often commands a premium on the secondary market.
+  </Card>
+  <Card title="Lightning G2" icon="zap">
+    **35 TH/s · 200 W · 1,000 hCASH · 100 supply**
+
+    Solid mid-range entry option. Identical price to the Plasma XL but lower hashrate; choose Plasma XL if available.
+  </Card>
+</CardGroup>
+
+**All Entry tier miners at a glance:**
+
+| Name | Hashrate (TH/s) | Power (W) | Efficiency (TH/W) | Price (hCASH) | Supply |
+|---|---|---|---|---|---|
+| Home Brew CPU Miner | 10 | 100 | 0.10 | 300 | 1,885 |
+| DragonTech RedDragon | 14 | 100 | 0.14 | 750 | 125 |
+| DragonTech RedDragon Ti | 24 | 300 | 0.08 | 750 | 100 |
+| Lightning G1 | 20 | 100 | 0.20 | 750 | 100 |
+| Lightning G2 | 35 | 200 | 0.18 | 1,000 | 100 |
+| Plasma Base | 25 | 100 | 0.25 | 750 | 35 |
+| Plasma XL | 45 | 200 | 0.23 | 1,000 | 30 |
+| CPU Miner v2.0 | 30 | 100 | 0.30 | 100 | 2,000 |
+
+<Tip>
+The CPU Miner v2.0 at 100 hCASH is the most accessible entry point and pays back in roughly 15 days at current network conditions. Stack several before moving up tiers.
+</Tip>
+
+---
+
+## Mid tier
+
+Mid-tier miners introduce higher hashrates and, in some cases, significantly higher power draws. Several models in this tier are special-issue and not available for direct purchase.
+
+<CardGroup cols={2}>
+  <Card title="Lightning G3" icon="bolt">
+    **50 TH/s · 100 W · 1,500 hCASH · 80 supply**
+
+    Outstanding power efficiency for a Mid miner: 0.50 TH/W. The low power draw (100 W) makes it easy to fit multiple units inside tighter facilities.
+  </Card>
+  <Card title="RedDragon TiX" icon="server">
+    **45 TH/s · 100 W · 1,000 hCASH · 250 supply**
+
+    High supply and low power cost. Comparable hashrate to the Plasma XL at the same 100 W draw, making it a strong secondary-market pick.
+  </Card>
+  <Card title="RedDragon Quadro Ti" icon="cpu">
+    **110 TH/s · 1,200 W · 2,000 hCASH · 15 supply**
+
+    Top raw hashrate in the Mid tier, but power-hungry. Only viable in ADVANCED or ELITE facilities that can absorb 1,200 W per unit.
+  </Card>
+  <Card title="RedDragon Tri-Rig" icon="settings">
+    **45 TH/s · 400 W · 2,500 hCASH / 3.5 AVAX · 25 supply**
+
+    One of the few miners purchasable in AVAX. Custom rig build; not the most efficient but valuable for portfolio diversification.
+  </Card>
+</CardGroup>
+
+**All Mid tier miners at a glance:**
+
+| Name | Hashrate (TH/s) | Power (W) | Efficiency (TH/W) | Price (hCASH) | Supply | For Sale? |
+|---|---|---|---|---|---|---|
+| RedDragon Quadro | 70 | 800 | 0.09 | 2,000 | 30 | Yes |
+| RedDragon Quadro Ti | 110 | 1,200 | 0.09 | 2,000 | 15 | Yes |
+| Quad Socket CPU Miner | 40 | 200 | 0.20 | — | 325 | No |
+| RedDragon Tri-Rig | 45 | 400 | 0.11 | 2,500 / 3.5 AVAX | 25 | Yes |
+| RedDragon Ti Duo-Rig | 70 | 700 | 0.10 | — | 26 | No |
+| Lightning G3 | 50 | 100 | 0.50 | 1,500 | 80 | Yes |
+| RedDragon TiX | 45 | 100 | 0.45 | 1,000 | 250 | Yes |
+
+<Note>
+The Quad Socket CPU Miner and RedDragon Ti Duo-Rig are special-issue and not available for purchase. They can only be acquired through secondary market trades if holders choose to sell.
+</Note>
+
+---
+
+## Pro tier
+
+Pro miners are where serious operators live. Hashrates range from 60 to 400 TH/s. Several flagship ASICs appear here, and Jvidia GPUs enter the catalog at competitive price-per-TH ratios.
+
+<CardGroup cols={2}>
+  <Card title="Jvidia JX420" icon="cpu">
+    **280 TH/s · 500 W · 3,500 hCASH · 250 supply**
+
+    Best hashrate-per-hCASH ratio in the Pro tier (0.08 TH/hCASH). High supply makes it the most accessible Pro miner on the secondary market.
+  </Card>
+  <Card title="HashTech Beast2 ASIC" icon="server">
+    **350 TH/s · 1,000 W · 3,500 hCASH · 20 supply**
+
+    Highest raw hashrate in the Pro tier. Same price as the JX420 but 25% more power draw for 25% more hashrate. Power-limited facilities should weigh the tradeoff carefully.
+  </Card>
+  <Card title="Jvidia JX450" icon="zap">
+    **400 TH/s · 800 W · 5,000 hCASH · 50 supply**
+
+    Top of the Pro tier by hashrate. Better efficiency than the Beast2 ASIC (0.50 TH/W vs 0.35 TH/W) at a higher price point.
+  </Card>
+  <Card title="HashTech 'The Beast' ASIC" icon="bolt">
+    **200 TH/s · 1,000 W · 3,500 hCASH · 45 supply**
+
+    The original flagship ASIC. Lower hashrate than the Beast2 at the same price — the Beast2 is strictly superior unless power headroom is limited.
+  </Card>
+</CardGroup>
+
+**All Pro tier miners at a glance:**
+
+| Name | Hashrate (TH/s) | Power (W) | Efficiency (TH/W) | Price (hCASH) | Supply | For Sale? |
+|---|---|---|---|---|---|---|
+| HashTech 'The Beast' ASIC | 200 | 1,000 | 0.20 | 3,500 | 45 | Yes |
+| WindHash Red | 125 | 600 | 0.21 | 3,500 / 40 AVAX | 10 | Yes |
+| HashTech 'Mini Beast' ASIC | 150 | 500 | 0.30 | 5,000 | 25 | Yes |
+| Plasma XXL | 60 | 200 | 0.30 | 5,000 | 25 | Yes |
+| HashTech ASIC Prototype | 250 | 2,000 | 0.13 | — | 0 | No |
+| Ennea Socket CPU Miner | 90 | 200 | 0.45 | — | 175 | No |
+| Jvidia JX420 | 280 | 500 | 0.56 | 3,500 | 250 | Yes |
+| Jvidia JX450 | 400 | 800 | 0.50 | 5,000 | 50 | Yes |
+| HashTech Beast2 ASIC | 350 | 1,000 | 0.35 | 3,500 | 20 | Yes |
+
+<Warning>
+The HashTech ASIC Prototype has zero listed supply and is not acquirable. The Ennea Socket CPU Miner is a custom rig unavailable for direct purchase.
+</Warning>
+
+---
+
+## Elite tier
+
+Elite miners are the pinnacle of the catalog. Several are not purchasable at all and exist as special-issue or proof-of-concept hardware. The efficiency outliers in this tier — particularly the Stormcore Superconductor and Jiga variants — define what is theoretically possible in the HashCash universe.
+
+<CardGroup cols={2}>
+  <Card title="Stormcore Superconductor" icon="zap">
+    **1,000 TH/s · 1 W · 25,000 hCASH · 10 supply**
+
+    The most power-efficient purchasable miner in the game: **1,000 TH/W**. Daily earnings at current network hashrate approach ~223 hCASH/day. With only 10 in existence, this is a collector's asset as much as a mining tool.
+  </Card>
+  <Card title="Jvidia JX 420-RC-12" icon="server">
+    **3,960 TH/s · 2,600 W · Not for sale · 20 supply**
+
+    The highest raw hashrate in the entire catalog by a factor of nearly 8×. The "Rackmount Chassis" designation suggests industrial-scale density. Not purchasable through any normal channel.
+  </Card>
+  <Card title="Jiga Jlant / Jiga Jread" icon="cpu">
+    **150 TH/s · 1 W · Not for sale · 25 supply each**
+
+    "Specialized Jabba miners" with 150 TH/W efficiency. Second only to the Stormcore. Special-issue only; secondary market is the only acquisition path.
+  </Card>
+  <Card title="Plasma Absolute" icon="bolt">
+    **400 TH/s · 800 W · 10,000 hCASH · 25 supply**
+
+    Highest purchasable hashrate in the Elite tier alongside the JX500. At 0.50 TH/W, it matches the JX450 in efficiency but costs twice as much — you're paying for Elite-tier status.
+  </Card>
+</CardGroup>
+
+**All Elite tier miners at a glance:**
+
+| Name | Hashrate (TH/s) | Power (W) | Efficiency (TH/W) | Price (hCASH) | Supply | For Sale? |
+|---|---|---|---|---|---|---|
+| WindHash Blue | 250 | 1,200 | 0.21 | 6,000 / 60 AVAX | 5 | Yes |
+| Galactic Hash C | 300 | 600 | 0.50 | 10,000 | 10 | Yes |
+| Jiga Jlant | 150 | 1 | 150.00 | — | 25 | No |
+| Jiga Jread | 150 | 1 | 150.00 | — | 25 | No |
+| Plasma Absolute | 400 | 800 | 0.50 | 10,000 | 25 | Yes |
+| Jvidia JX500 | 500 | 1,200 | 0.42 | 7,000 | 20 | Yes |
+| Stormcore Superconductor | 1,000 | 1 | 1,000.00 | 25,000 | 10 | Yes |
+| Jvidia JX 420-RC-12 | 3,960 | 2,600 | 1.52 | — | 20 | No |
+
+---
+
+## Standout miners summary
+
+<CardGroup cols={3}>
+  <Card title="Best efficiency" icon="zap">
+    **Stormcore Superconductor** — 1,000 TH/W
+
+    Followed by Jiga Jlant and Jiga Jread at 150 TH/W. All three are extremely scarce.
+  </Card>
+  <Card title="Best raw hashrate" icon="cpu">
+    **Jvidia JX 420-RC-12** — 3,960 TH/s
+
+    Not for sale. Represents the ceiling of what the protocol supports.
+  </Card>
+  <Card title="Best entry value" icon="coins">
+    **CPU Miner v2.0** — 100 hCASH
+
+    30 TH/s for 100 hCASH. ~15-day payback. 2,000 supply ensures liquidity.
+  </Card>
+</CardGroup>
+
+---
+
+## Secondary market
+
+All miner NFTs can be traded peer-to-peer for hCASH or AVAX. Some miners (notably WindHash Red/Blue and RedDragon Tri-Rig) have dual-currency primary prices; secondary market prices are set freely by sellers. Special-issue and not-for-sale miners are exclusively obtainable on the secondary market, and their scarcity typically commands significant premiums.
+
+<CardGroup cols={2}>
+  <Card title="ROI Calculator" href="/dashboard/roi-calculator" icon="calculator">
+    Model payback periods and daily earnings for any miner before purchasing.
+  </Card>
+  <Card title="Miner Compare" href="/dashboard/miner-compare" icon="chart-bar">
+    Side-by-side comparison of any two miners across all metrics.
+  </Card>
+</CardGroup>

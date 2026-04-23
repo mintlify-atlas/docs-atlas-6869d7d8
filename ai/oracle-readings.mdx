@@ -1,0 +1,222 @@
+---
+title: "Oracle AI Readings: interpret your scenario matrix"
+description: "The Oracle AI reads your 3×3 scenario matrix and returns a five-part verdict: directional bias, critical variable, best move, risk flag, and confidence level."
+---
+
+After configuring your scenario matrix in the [Oracle tool](/tools/oracle), you can request an AI reading that interprets the full grid of projections and distills it into a decisive five-part strategic assessment. The Oracle speaks like a trader reviewing a position — direct, specific, and opinionated. It does not teach you the game; it tells you what to do given the numbers you have set.
+
+## How a reading is triggered
+
+The Oracle reading is initiated from the Oracle tool page after you have set your four slider values and the nine cells of the scenario matrix are populated. Clicking the reading button sends your complete input state to the `/api/oracle` endpoint, which passes it to the AI and returns a plain-text reading in a structured format.
+
+<Steps>
+  <Step title="Set your sliders">
+    Dial in the four scenario variables: Network Growth %, Price Move %, New Players entering the game, and number of Halvings to model. These define the macro conditions the Oracle reasons about.
+  </Step>
+  <Step title="Review the matrix">
+    The Oracle matrix is a 3×3 grid of Bear / Base / Bull scenarios across 30-day, 90-day, and 180-day time horizons. Each cell shows projected hCASH earnings, USD value, and your estimated network share. Confirm the numbers look right before requesting a reading.
+  </Step>
+  <Step title="Request the reading">
+    Submit the matrix to the Oracle. The AI processes your full slider state and the three diagonal scenario anchors (Bear 30d, Base 90d, Bull 180d) and returns a reading within a few seconds.
+  </Step>
+  <Step title="Act on the verdict">
+    Each section of the reading maps to a specific decision. Read the VERDICT for directional bias, BEST MOVE for your next action, and ORACLE CONFIDENCE to weight how much conviction to apply.
+  </Step>
+</Steps>
+
+## Reading format
+
+Every Oracle reading follows the same five-section structure. There is no prose padding — each section is a single focused output.
+
+<CardGroup cols={2}>
+  <Card title="VERDICT" icon="scale-balanced">
+    A one-sentence directional call: BULLISH, BEARISH, or UNCERTAIN, with the core reason. This is the Oracle's overall read on whether your current setup is positioned well under the modeled conditions.
+  </Card>
+  <Card title="CRITICAL FACTOR" icon="crosshairs">
+    The single slider variable with the highest impact on your outcome spread across the matrix. This tells you which assumption to challenge first if you want to stress-test the reading.
+  </Card>
+  <Card title="BEST MOVE" icon="arrow-right">
+    One specific action to take now given the matrix projections. Not a general suggestion — a named action such as claiming before a halving, upgrading a facility tier, or buying hashrate on the secondary market.
+  </Card>
+  <Card title="RISK ALERT" icon="triangle-exclamation">
+    The scenario you are most exposed to and least prepared for. Usually references the Bear column — tells you what to hedge against even if the base case looks good.
+  </Card>
+  <Card title="ORACLE CONFIDENCE" icon="gauge">
+    HIGH, MEDIUM, or LOW — with a one-sentence explanation of why. Low confidence typically means the slider inputs produce a wide outcome spread with no clear dominant scenario.
+  </Card>
+  <Card title="Formatting rules" icon="text">
+    The Oracle uses ALL CAPS for emphasis and plain text throughout. No markdown symbols, no bullet points, no headers. The raw text is rendered directly in the terminal interface.
+  </Card>
+</CardGroup>
+
+## Sample reading
+
+This is an example of a full Oracle reading returned by the API given moderately bullish slider inputs with a halving on the horizon.
+
+```text
+VERDICT: BULLISH — the base and bull scenarios both show meaningful hCASH accumulation at your current hashrate share, and the network growth input is within a range your position can absorb without severe dilution.
+
+CRITICAL FACTOR: HALVINGS. A single halving event cuts block rewards from 1.25 to 0.625 hCASH, collapsing the bull case USD projection by ~40% if the price assumption does not compensate. Everything else is secondary to this timing risk.
+
+BEST MOVE: Accelerate claiming now and reinvest into hashrate before the halving fires. Your Base 90d projection suggests you have a window to compound your position while full emissions are still active.
+
+RISK ALERT: The Bear 30d cell is your floor scenario — if new player inflow spikes above your modeled input, network dilution compresses your share faster than the 30-day projection assumes. Prepare for a hashrate acquisition response if this materializes.
+
+ORACLE CONFIDENCE: MEDIUM — the price move and network growth sliders are pulling in opposite directions at these values, which widens the outcome spread and reduces conviction on the directional call.
+```
+
+## Interpreting each section
+
+<AccordionGroup>
+  <Accordion title="VERDICT — what it means and when to trust it">
+    BULLISH means the matrix shows your setup outperforming relative to your current position under most modeled scenarios. BEARISH means the numbers skew against you. UNCERTAIN means the scenarios diverge enough that no clear call is warranted.
+
+    Trust the verdict more when ORACLE CONFIDENCE is HIGH. When confidence is LOW or MEDIUM, treat the VERDICT as a lean rather than a conclusion, and weight the RISK ALERT more heavily.
+  </Accordion>
+  <Accordion title="CRITICAL FACTOR — how to use it">
+    This is the Oracle telling you which slider to scrutinize. If the critical factor is HALVINGS, go to the [Halving Tracker](/dashboard/halving-tracker) and confirm how many blocks remain. If it is NETWORK GROWTH, check recent player activity and hashrate trend data on the dashboard.
+
+    Adjust the identified slider by ±20% and request a new reading to see how sensitive your outlook is to that single assumption.
+  </Accordion>
+  <Accordion title="BEST MOVE — specificity and limitations">
+    The BEST MOVE is derived from the diagonal of your matrix — the Bear 30d, Base 90d, and Bull 180d cells — and the slider state. It is the most actionable section of the reading.
+
+    It does not account for your live unclaimed balance or current electricity rate, because the Oracle receives only the slider and matrix data. Cross-reference it against your current rate in the [Claim Advisor](/tools/claim-advisor) before acting on a CLAIM or HOLD recommendation.
+  </Accordion>
+  <Accordion title="RISK ALERT — preparing for the downside">
+    The Oracle always identifies the scenario worth hedging even when the verdict is bullish. Read the RISK ALERT as: "If this specific thing happens, here is how it will hurt you."
+
+    A common RISK ALERT pattern is network dilution from new player inflow collapsing your hashrate share faster than projected. The antidote is always more hashrate or faster claiming — the Oracle will name whichever applies.
+  </Accordion>
+  <Accordion title="ORACLE CONFIDENCE — why it varies">
+    HIGH confidence means the matrix scenarios converge — your outcome is relatively predictable across the range. MEDIUM means the scenarios spread but the direction is still clear. LOW means the inputs produce wildly different outcomes depending on which scenario materializes.
+
+    Low confidence is not a failure state. It is the Oracle telling you that your setup is highly sensitive to market conditions and that now is not the time for large, irreversible decisions.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## API reference
+
+### POST /api/oracle
+
+Submits a scenario matrix and slider configuration to the Oracle AI and returns a structured plain-text reading.
+
+<Note>
+  This endpoint requires `ANTHROPIC_API_KEY` in your environment. See [API Keys setup](/setup/api-keys). Unlike the chat endpoint, the Oracle response is not streamed — it returns when the full reading is complete.
+</Note>
+
+**Request**
+
+```http
+POST /api/oracle
+Content-Type: application/json
+```
+
+<ParamField body="sliderValues" type="object" required>
+  The four macro scenario variables set by the user in the Oracle tool.
+
+  <ParamField body="networkGrowth" type="number" required>
+    Projected growth in total network hashrate, expressed as a percentage. For example, `25` means 25% network hashrate growth modeled over the scenario window.
+  </ParamField>
+
+  <ParamField body="priceMove" type="number" required>
+    Projected hCASH price change, expressed as a percentage. Positive values are bullish, negative values are bearish. For example, `-30` models a 30% price decline.
+  </ParamField>
+
+  <ParamField body="newPlayers" type="number" required>
+    Estimated number of new players joining the network within the scenario window. Higher values increase network dilution risk.
+  </ParamField>
+
+  <ParamField body="halvings" type="number" required>
+    Number of halvings expected to occur within the scenario window. `0` means no halving; `1` means one halving fires during the modeled period.
+  </ParamField>
+</ParamField>
+
+<ParamField body="matrix" type="array" required>
+  A 3×3 nested array of scenario cells. The outer array index corresponds to the scenario row (0 = Bear, 1 = Base, 2 = Bull). The inner array index corresponds to the time horizon column (0 = 30d, 1 = 90d, 2 = 180d).
+
+  The Oracle reads from three diagonal cells: `matrix[0][0]` (Bear 30d), `matrix[1][1]` (Base 90d), and `matrix[2][2]` (Bull 180d).
+
+  Each cell object has the following fields:
+
+  <ParamField body="hCash" type="number" required>
+    Projected hCASH earned in this scenario and time window.
+  </ParamField>
+
+  <ParamField body="usd" type="number" required>
+    USD value of projected hCASH earnings at the modeled price.
+  </ParamField>
+
+  <ParamField body="share" type="number">
+    Estimated network hashrate share as a percentage.
+  </ParamField>
+
+  <ParamField body="case" type="string">
+    Scenario label. One of `"bear"`, `"base"`, or `"bull"`.
+  </ParamField>
+
+  <ParamField body="days" type="number">
+    Time horizon in days. One of `30`, `90`, or `180`.
+  </ParamField>
+</ParamField>
+
+**Example request body**
+
+```json
+{
+  "sliderValues": {
+    "networkGrowth": 20,
+    "priceMove": 15,
+    "newPlayers": 50,
+    "halvings": 1
+  },
+  "matrix": [
+    [
+      { "hCash": 312, "usd": 187, "share": 0.8, "case": "bear", "days": 30 },
+      { "hCash": 890, "usd": 534, "share": 0.75, "case": "bear", "days": 90 },
+      { "hCash": 1640, "usd": 984, "share": 0.7, "case": "bear", "days": 180 }
+    ],
+    [
+      { "hCash": 405, "usd": 283, "share": 1.1, "case": "base", "days": 30 },
+      { "hCash": 1215, "usd": 850, "share": 1.05, "case": "base", "days": 90 },
+      { "hCash": 2310, "usd": 1617, "share": 1.0, "case": "base", "days": 180 }
+    ],
+    [
+      { "hCash": 520, "usd": 416, "share": 1.4, "case": "bull", "days": 30 },
+      { "hCash": 1560, "usd": 1248, "share": 1.35, "case": "bull", "days": 90 },
+      { "hCash": 3020, "usd": 2416, "share": 1.3, "case": "bull", "days": 180 }
+    ]
+  ]
+}
+```
+
+**Response**
+
+```http
+200 OK
+Content-Type: application/json
+```
+
+<ResponseField name="reading" type="string">
+  The complete Oracle reading as a plain-text string. The text follows the five-section format: VERDICT, CRITICAL FACTOR, BEST MOVE, RISK ALERT, and ORACLE CONFIDENCE. Sections are separated by line breaks. No markdown characters are present.
+</ResponseField>
+
+**Example response**
+
+```json
+{
+  "reading": "VERDICT: BULLISH — base and bull scenarios show strong hCASH accumulation even with the modeled halving, provided your hashrate share holds above 1%.\n\nCRITICAL FACTOR: HALVINGS. One halving during this window cuts your block reward in half mid-scenario, making the 180-day projections highly sensitive to when exactly it fires.\n\nBEST MOVE: Claim aggressively now while the 1.25 hCASH/block rate is active, then assess reinvestment into higher-hashrate miners after the halving to recover share.\n\nRISK ALERT: 50 new players entering at once is the bear scenario trigger — if they concentrate in your hashrate tier, your share compresses faster than the Bear 30d cell assumes.\n\nORACLE CONFIDENCE: MEDIUM — the halving timing introduces a binary outcome that splits the bull and bear projections significantly, reducing directional conviction."
+}
+```
+
+**Error response**
+
+```json
+{
+  "error": "Oracle unavailable"
+}
+```
+
+Returns HTTP `500`. Usually caused by a missing `ANTHROPIC_API_KEY` or a downstream Anthropic API failure.

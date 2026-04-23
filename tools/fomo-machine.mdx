@@ -1,0 +1,159 @@
+---
+title: "FOMO Machine: Quantify your mining opportunity cost"
+description: "Calculate hCASH lost to late starts, delayed upgrades, and surge claims — then generate an AI mission debrief and export a shareable PNG report."
+---
+
+The FOMO Machine is a counterfactual analysis tool that turns regret into data. It takes a snapshot of your actual mining history and runs three parallel simulations — an earlier start, a sooner facility upgrade, and avoided surge-period claims — each calculating how much additional hCASH you would have earned had things gone differently. The Opportunity Cost sidebar then applies ongoing pressure: it shows what you are losing *right now* every day you stay at your current tier.
+
+This is not a guilt trip. It is a calibration instrument designed to help you make the next decision with clear eyes.
+
+## Step 1: Lock In Reality
+
+Before any simulation runs, you anchor the tool to your actual numbers. Fill in the five fields and click **LOCK IN REALITY**.
+
+<CardGroup cols={2}>
+  <Card title="Daily hCASH" icon="coins">
+    Your average daily hCASH earnings at current hashrate and tier. Used as the baseline rate for all three scenario calculations.
+  </Card>
+  <Card title="Days Mining" icon="calendar">
+    How many days you have been actively mining. Used by the Early Bird scenario to anchor the counterfactual start date.
+  </Card>
+  <Card title="Total Earned" icon="wallet">
+    Your cumulative hCASH earned to date. Displayed on the shareable PNG report as your actual reality figure.
+  </Card>
+  <Card title="hCASH Price (USD)" icon="dollar-sign">
+    Current hCASH price, auto-populated from the live price feed. You can override it manually. Lock the price to prevent it from updating while you are exploring scenarios.
+  </Card>
+</CardGroup>
+
+**Facility Tier** (STARTER / STANDARD / ADVANCED / ELITE) is also required. It is used by the Upgrade Path scenario to calculate the delta between your current tier and a higher one.
+
+Once locked, the inputs collapse into a compact summary bar showing your total earned, USD value, and days mining. Click **Unlock to Edit** to revise any value.
+
+<Note>
+  The three scenario cards and the AI debrief button are greyed out and non-interactive until reality is locked. This prevents running simulations against an empty or incomplete baseline.
+</Note>
+
+## The Three Scenarios
+
+<Tabs>
+  <Tab title="The Early Bird">
+    **What if you started mining earlier?**
+
+    The Early Bird scenario calculates how much additional hCASH you would have accumulated had you started mining a set number of days sooner than you actually did.
+
+    ```
+    extraHcash = dailyRate × earlyDays
+    extraUsd   = extraHcash × hCashPrice
+    ```
+
+    Use the **Backdated Days** slider (range: 7 to 180 days) to adjust how many extra days you are simulating. The delta and its USD equivalent update instantly.
+
+    This scenario uses a flat daily rate projection — it does not apply historical hashrate growth curves. The assumption is that you would have been mining at your current daily rate for the entire additional period. The result is a conservative floor on the true opportunity cost, since your compounded position would likely have been stronger by now.
+  </Tab>
+  <Tab title="The Upgrade Path">
+    **What if you had upgraded your facility sooner?**
+
+    The Upgrade Path scenario calculates the additional daily hCASH you would have earned by operating at a higher facility tier for a given number of past days.
+
+    Each tier step above your current tier is assumed to add **40% more daily hCASH** output:
+
+    ```
+    boostFactor = (targetTierIndex - currentTierIndex) × 0.4
+    extraDaily  = dailyRate × boostFactor
+    deltaHcash  = extraDaily × upgradeDaysAgo
+    deltaUsd    = deltaHcash × hCashPrice
+    ```
+
+    **Example:** If you are on STANDARD (index 1) and simulate upgrading to ELITE (index 3), the boost factor is `(3 - 1) × 0.4 = 0.8`, meaning 80% more daily output. Over 30 days, that compounds significantly.
+
+    Set the **Target Tier** dropdown and the **Days Ago** input to configure the simulation. The days ago field accepts manual entry, so you can model scenarios like "what if I upgraded 90 days ago."
+
+    <Tip>
+      The Opportunity Cost sidebar is the forward-looking complement to this scenario. While Upgrade Path looks backward, the sidebar shows what you are still losing *today* by remaining at your current tier.
+    </Tip>
+  </Tab>
+  <Tab title="The Claim Master">
+    **What if you had never claimed during a surge period?**
+
+    The Claim Master scenario estimates how much hCASH you wasted on inflated fees by claiming during network fee surge periods.
+
+    The model assumes each surge claim was executed on a 100 hCASH balance and incurred the surge fee rate (15%) versus the normal fee rate (2%), for a net waste of **13 hCASH per surge claim**:
+
+    ```
+    wastePerClaim = 100 × 0.13    → 13 hCASH per surge claim
+    deltaHcash    = surgeClaims × 13
+    deltaUsd      = deltaHcash × hCashPrice
+    ```
+
+    Use the **Surge Claims Made** slider (range: 0 to 20) to enter how many times you claimed during fee surge windows. The bar chart visualization beneath the slider provides a dramatic representation of accumulated waste.
+
+    At 10 surge claims, you have forfeited 130 hCASH — enough to purchase a USB Nano miner outright.
+
+    <Warning>
+      The 13 hCASH waste figure is a model estimate based on a 100 hCASH average claim size and the 13-percentage-point spread between surge and normal fee rates. Your actual waste may be higher or lower depending on the sizes of your individual claims.
+    </Warning>
+  </Tab>
+</Tabs>
+
+## The Opportunity Cost Sidebar
+
+The red-bordered **Cost of Waiting** panel runs continuously alongside the three scenarios. It answers one question: what are you losing *right now* by staying at your current tier rather than upgrading?
+
+```
+dailyLoss         = dailyHcash × 0.4
+monthlyLossHcash  = dailyLoss × 30
+monthlyLossUsd    = monthlyLossHcash × hCashPrice
+```
+
+The 40% factor represents the single-tier hashrate advantage gap — the same coefficient used by the Upgrade Path scenario. Staying one tier below optimal costs 40% of your daily rate per day.
+
+The sidebar displays:
+- **Next 30 Days Loss** in hCASH and USD
+- A quoted statement naming the exact daily hCASH being forfeited to more aggressive operators
+- An advisory note that the upgrade typically pays for itself in approximately 12 days of increased yield
+
+<Note>
+  The sidebar calculates relative to your current tier, not your simulated target. Its purpose is to maintain ongoing urgency, not to duplicate the Upgrade Path scenario output.
+</Note>
+
+## AI Mission Debrief
+
+Once reality is locked, click **GET MY MINING MISSION DEBRIEF** to send your actual stats and all three scenario deltas to the AI backend (`/api/fomo-story`).
+
+The AI returns a narrative report — styled as a mission debrief — that synthesizes the counterfactual data into a strategic interpretation. It characterizes the scale of the opportunity cost, names the single highest-leverage action available to you right now, and frames the path forward in concrete terms.
+
+The debrief is formatted as a flowing prose document, not a bulleted list. It reads like a field report from a seasoned mining intelligence analyst.
+
+<Note>
+  The debrief requires a configured Anthropic API key in your deployment environment. See [API Keys](/setup/api-keys) if the backend is unreachable.
+</Note>
+
+## Shareable PNG Report
+
+The right-side panel includes a **Generated Share Card** — a glitch-aesthetic PNG built from your actual and Early Bird scenario data. The card features:
+
+- A scanline overlay and radial glow on a near-black background
+- The Early Bird delta in large display type: `+{earlyBird.delta} hCASH`
+- A subtitle: *LOST TO THE TIME STREAM — STARTING {earlyDays} DAYS EARLIER*
+- Your actual total earned and estimated USD value at the bottom
+- A pulsing **CRITICAL OPPORTUNITY LOSS** label
+
+Click **DOWNLOAD PNG** to export at 2× pixel ratio as `fomo-report-{timestamp}.png`. The card is designed to be shared on social media or used as a personal motivational artifact.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Facility Tiers" href="/mechanics/facility-tiers" icon="building">
+    Full specifications for all four facility tiers and the hashrate multipliers associated with each level.
+  </Card>
+  <Card title="Claim Strategy" href="/mechanics/claim-strategy" icon="clock">
+    How to identify surge vs. normal rate windows and build a claiming cadence that minimizes fee waste.
+  </Card>
+  <Card title="Claim Advisor" href="/tools/claim-advisor" icon="shield-check">
+    Real-time WAIT / CLAIM NOW verdict for a specific wallet, based on the 2× fee threshold rule.
+  </Card>
+  <Card title="ROI Calculator" href="/dashboard/roi-calculator" icon="calculator">
+    Model the compounding effect of earlier starts and tier upgrades over extended time horizons.
+  </Card>
+</CardGroup>
